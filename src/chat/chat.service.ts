@@ -10,13 +10,13 @@ export class ChatService {
   ) {}
 
   async newUser(userName: any) {
-    let isExist = await this.liveModel.findOne({ userName })
-    if(!isExist){
+    let isExist = await this.liveModel.findOne({ userName });
+    if (!isExist) {
       return this.liveModel.create({
         userName,
       });
     }
-    throw new BadGatewayException("User alredy exist")
+    throw new BadGatewayException("User alredy exist");
   }
 
   async offlineUser(userName: any) {

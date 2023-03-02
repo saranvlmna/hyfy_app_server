@@ -1,75 +1,42 @@
-
-
 import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    Param,
-    Post,
-    Put,
-    Req,
-    Res,
-    UseGuards,
-} from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { loginDto, signupDto } from '../dto';
-import { StatusCodes } from 'http-status-codes';
-import { Tokens } from 'src/types/token';
-import { AuthGuard } from '@nestjs/passport';
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Req,
+  Res,
+  UseGuards,
+  UseInterceptors,
+} from "@nestjs/common";
+import { AuthService } from "./auth.service";
+import { loginDto, signupDto } from "../dto";
+import { StatusCodes } from "http-status-codes";
+import { Tokens } from "src/types/token";
+import { AuthGuard } from "@nestjs/passport";
+import { Authguard } from "src/shaerd/authgaurd";
 
-@Controller('auth')
+@Controller("auth")
 export class AuthController {
-    constructor(private readonly userService: AuthService) { }
+  constructor(private readonly authService: AuthService) {}
 
-    @Post('test')
-    async test(@Body() body: any) {
-        console.log(JSON.stringify(body))
-    }
+  @Post("signup")
+  async signup(@Body() body: signupDto, @Res() res: any): Promise<Tokens> {
+    const user = await this.authService.createUser(body);
+    return res.status(StatusCodes.OK).json({
+      message: "user successfuly created",
+      data: user,
+    });
+  }
 
-    @Post('signup')
-    async signup(@Body() body: signupDto, @Res() res: any): Promise<Tokens> {
-        const user = await this.userService.createUser(body);
-        return res.status(StatusCodes.OK).json({
-            message: 'user successfuly created',
-            data: user,
-        });
-    }
-
-    @Post('login')
-    async signin(@Body() body: loginDto, @Res() res: any): Promise<Tokens> {
-        const user = await this.userService.loginUser(body);
-        return res.status(StatusCodes.OK).json({
-            message: 'user successfully login',
-            data: user,
-        });
-    }
-
-    @UseGuards(AuthGuard('jwt'))
-    @Get('list')
-    async listAllUsers(@Res() res: any) {
-        const users = await this.userService.findAll();
-        return res.status(StatusCodes.OK).json({
-            message: 'user fetched successfully',
-            data: users,
-        });
-    }
-
-    @Put('edit/:id')
-    async editUser(@Body() body: any, @Param() param: any, @Res() res: any) {
-        const result = await this.userService.editUser(body, param.id);
-        return res.status(StatusCodes.OK).json({
-            message: 'user edited sucessfully',
-            data: result,
-        });
-    }
-
-    @Delete('delete/:id')
-    async deleteUser(@Param() param: any, @Res() res: any) {
-        const result = await this.userService.deleteUser(param.id);
-        return res.status(StatusCodes.OK).json({
-            message: 'user deleted successfully',
-            data: result,
-        });
-    }
+  @Post("login")
+  async signin(@Body() body: loginDto, @Res() res: any): Promise<Tokens> {
+    const user = await this.authService.loginUser(body);
+    return res.status(StatusCodes.OK).json({
+      message: "user successfully login",
+      data: user,
+    });
+  }
 }

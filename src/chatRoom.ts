@@ -20,7 +20,7 @@ export class ChatGateway {
 
   @SubscribeMessage("sendMessage")
   async handleMessage(@MessageBody() message: any) {
-    console.log(message)
+    console.log(message);
     // await this.chatService.saveRoomMessage(data.userName);
     this.server.emit("messageResponse", message);
   }
