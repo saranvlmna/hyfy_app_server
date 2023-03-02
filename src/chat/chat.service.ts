@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadGatewayException, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Active, ActiveDocument } from "src/database/liveuser";
@@ -9,10 +9,14 @@ export class ChatService {
     @InjectModel(Active.name) private liveModel: Model<ActiveDocument>
   ) {}
 
-  async activeUser(userName: any) {
-    return this.liveModel.create({
-      userName,
-    });
+  async newUser(userName: any) {
+    let isExist = await this.liveModel.findOne({ userName })
+    if(!isExist){
+      return this.liveModel.create({
+        userName,
+      });
+    }
+    throw new BadGatewayException("User alredy exist")
   }
 
   async offlineUser(userName: any) {
