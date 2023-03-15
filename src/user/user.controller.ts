@@ -14,6 +14,13 @@ import { UserService } from "./user.service";
 @Controller("user")
 export class UserController {
   constructor(private readonly userService: UserService) {}
+  
+  @Get("helo")
+  async heloUser(@Res() res: any) {
+    return res.status(StatusCodes.OK).json({
+      message: "Hello User",
+    });
+  }
 
   @UseInterceptors(Authguard)
   @Get("list")
