@@ -12,6 +12,9 @@ export class Interests extends Document {
   @Prop()
   reels: boolean;
 
+  @Prop()
+  others: Array<string>;
+
   @Prop({ default: now() })
   createdAt: Date;
 

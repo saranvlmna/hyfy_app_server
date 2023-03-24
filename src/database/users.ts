@@ -16,13 +16,25 @@ export class Users extends Document {
   gender: string;
 
   @Prop()
-  number: number;
+  mobile: number;
 
   @Prop()
   state: string;
 
   @Prop()
   city: string;
+
+  @Prop()
+  height: string;
+
+  @Prop()
+  weight: string;
+
+  @Prop()
+  shortAbout: string;
+
+  @Prop()
+  languages: Array<string>;
 
   @Prop()
   password: string;

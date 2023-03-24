@@ -2,15 +2,15 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Types, now, Document, Schema as MongooseSchema } from "mongoose";
 
 @Schema()
-export class Interests extends Document {
+export class Premium extends Document {
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: "Users" })
   userId: Types.ObjectId;
 
   @Prop()
-  endDate: Date;
+  plan: string;
 
   @Prop()
-  plan: string;
+  endDate: Date;
 
   @Prop({ default: now() })
   createdAt: Date;
@@ -19,4 +19,4 @@ export class Interests extends Document {
   updatedAt: Date;
 }
 
-export const InterestsSchema = SchemaFactory.createForClass(Interests);
+export const PremiumSchema = SchemaFactory.createForClass(Premium);

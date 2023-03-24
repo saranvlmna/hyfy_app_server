@@ -85,10 +85,35 @@ export class UserService {
             from: "images",
             localField: "_id",
             foreignField: "userId",
-            as: "image",
+            as: "images",
           },
         },
-      ]);
+        {
+          $lookup: {
+            from: "interests",
+            localField: "_id",
+            foreignField: "userId",
+            as: "Interests",
+          },
+        },
+        {
+          $lookup: {
+            from: "socials",
+            localField: "_id",
+            foreignField: "userId",
+            as: "socials",
+          },
+        },
+        {
+          $lookup: {
+            from: "premiums",
+            localField: "_id",
+            foreignField: "userId",
+            as: "premiums",
+          },
+        },
+        
+      ])
       console.log(JSON.stringify(data));
     } catch (error) {
       console.log(error);
