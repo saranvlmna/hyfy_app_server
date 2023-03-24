@@ -30,11 +30,11 @@ export class AuthService {
   }
 
   async loginUser(data: any) {
+    console.log(data);
+
     let existingUser;
     existingUser = await this.userModel.findOne({
-      where: {
-        email: data.email,
-      },
+      email: data.email,
     });
     if (!existingUser) {
       throw new NotFoundException("User does not exist");

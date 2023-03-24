@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { now, Document } from "mongoose";
+import mongoose, { now, Document } from "mongoose";
 
 export type UserDocumet = User & Document;
 
@@ -37,6 +37,13 @@ export class User {
 
   @Prop({ default: now() })
   updatedAt: Date;
+
+  images: [
+    {
+      type: mongoose.Schema.Types.ObjectId;
+      ref: "Images";
+    }
+  ];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
