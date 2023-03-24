@@ -1,18 +1,18 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { Images, ImagesDocumet } from "src/database/images";
+import { Images } from "src/database/images";
 import { Interests } from "src/database/interests";
-import { Social, SocialDocumet } from "src/database/social";
-import { User, UserDocumet } from "src/database/user";
+import { Social } from "src/database/social";
+import { Users } from "src/database/users";
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectModel(User.name) private userModel: Model<UserDocumet>,
-    @InjectModel(Social.name) private socialModel: Model<SocialDocumet>,
-    @InjectModel(Interests.name) private interestsModel: Model<SocialDocumet>,
-    @InjectModel(Images.name) private imagesModel: Model<ImagesDocumet>
+    @InjectModel(Users.name) private userModel: Model<Users>,
+    @InjectModel(Social.name) private socialModel: Model<Social>,
+    @InjectModel(Interests.name) private interestsModel: Model<Interests>,
+    @InjectModel(Images.name) private imagesModel: Model<Images>
   ) {}
 
   async findAll() {
@@ -78,12 +78,20 @@ export class UserService {
   }
 
   async getNewFeeds() {
-    let data = await this.userModel.find().populate({
-      path: "Images",
-      // populate: {
-      //   path: "comments"
-      // }
-    });
-    console.log(data);
+    try {
+      let data = await this.userModel.aggregate([
+        {
+          $lookup: {
+            from: "images",
+            localField: "_id",
+            foreignField: "userId",
+            as: "image",
+          },
+        },
+      ]);
+      console.log(JSON.stringify(data));
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

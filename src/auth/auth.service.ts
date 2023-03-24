@@ -4,7 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
-import { User, UserDocumet, UserSchema } from "../database/user";
+import { Users } from "../database/users";
 import { genSalt, hash, compare } from "bcrypt";
 import { Tokens } from "src/types/token";
 import { JwtService } from "@nestjs/jwt";
@@ -16,7 +16,7 @@ const otpGenerator = require("otp-generator");
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectModel(User.name) private userModel: Model<UserDocumet>,
+    @InjectModel(Users.name) private userModel: Model<Users>,
     private jwtService: JwtService
   ) {}
 

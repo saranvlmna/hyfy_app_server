@@ -1,12 +1,10 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { now, Document } from "mongoose";
-
-export type InterestsDocumet = Interests & Document;
+import { Types, now, Document, Schema as MongooseSchema } from "mongoose";
 
 @Schema()
-export class Interests {
-  @Prop()
-  userId: string;
+export class Interests extends Document {
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: "Users" })
+  userId: Types.ObjectId;
 
   @Prop()
   songs: boolean;
