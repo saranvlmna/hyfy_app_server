@@ -1,10 +1,8 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { now, Document } from "mongoose";
 
-export type ChatDocumet = Chat & Document;
-
 @Schema()
-export class Chat {
+export class Chat extends Document {
   @Prop()
   userId: string;
 

@@ -1,12 +1,10 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { now, Document } from "mongoose";
-
-export type SocialDocumet = Social & Document;
+import { Types, now, Document, Schema as MongooseSchema } from "mongoose";
 
 @Schema()
-export class Social {
-  @Prop()
-  userId: string;
+export class Social extends Document {
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: "Users" })
+  userId: Types.ObjectId;
 
   @Prop()
   instagram: string;

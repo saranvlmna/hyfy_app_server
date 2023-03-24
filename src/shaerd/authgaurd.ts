@@ -8,12 +8,12 @@ import { JwtService } from "@nestjs/jwt";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Observable } from "rxjs";
-import { User, UserDocumet } from "src/database/user";
+import { Users } from "src/database/users";
 @Injectable()
 export class Authguard implements NestInterceptor {
   constructor(
     private readonly jwt: JwtService,
-    @InjectModel(User.name) private userModel: Model<UserDocumet>
+    @InjectModel(Users.name) private userModel: Model<Users>
   ) {}
   async intercept(
     context: ExecutionContext,
