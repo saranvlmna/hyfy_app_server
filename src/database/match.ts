@@ -7,7 +7,7 @@ export class Interests extends Document {
   userId: Types.ObjectId;
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: "Users" })
-  likeId: Types.ObjectId;
+  partnerId: Types.ObjectId;
 
   @Prop()
   isMatch: boolean;

@@ -36,6 +36,9 @@ export class Users extends Document {
   @Prop()
   languages: Array<string>;
 
+  @Prop({default:false})
+  isPremium: boolean;
+
   @Prop()
   password: string;
 
