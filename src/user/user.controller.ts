@@ -89,4 +89,15 @@ export class UserController {
       data: result,
     });
   }
+
+  @UseInterceptors(Authguard)
+  @Post("match")
+  async matchPartner(@Body() body: any, @Res() res: any, @Req() req: any) {
+    body["userId"] = req.user.id;
+    const result = await this.userService.matchPartner(body);
+    return res.status(StatusCodes.OK).json({
+      message: "Parter matched successfully",
+      data: result,
+    });
+  }
 }
