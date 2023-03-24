@@ -79,7 +79,7 @@ export class UserService {
 
   async getNewFeeds() {
     try {
-      let data = await this.userModel.aggregate([
+     return await this.userModel.aggregate([
         {
           $lookup: {
             from: "images",
@@ -114,7 +114,6 @@ export class UserService {
         },
         
       ])
-      console.log(JSON.stringify(data));
     } catch (error) {
       console.log(error);
     }
