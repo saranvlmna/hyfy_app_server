@@ -15,6 +15,12 @@ export class Social extends Document {
   @Prop()
   twitter: string;
 
+  @Prop()
+  snapChat: string;
+
+  @Prop()
+  spotify: string;
+
   @Prop({ default: now() })
   createdAt: Date;
 

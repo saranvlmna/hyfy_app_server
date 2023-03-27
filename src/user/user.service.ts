@@ -3,6 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Images } from "src/database/images";
 import { Interests } from "src/database/interests";
+import { Match } from "src/database/match";
 import { Social } from "src/database/social";
 import { Users } from "src/database/users";
 
@@ -12,7 +13,8 @@ export class UserService {
     @InjectModel(Users.name) private userModel: Model<Users>,
     @InjectModel(Social.name) private socialModel: Model<Social>,
     @InjectModel(Interests.name) private interestsModel: Model<Interests>,
-    @InjectModel(Images.name) private imagesModel: Model<Images>
+    @InjectModel(Images.name) private imagesModel: Model<Images>,
+    @InjectModel(Match.name) private matchModel: Model<Match>
   ) {}
 
   async findAll() {
@@ -79,19 +81,69 @@ export class UserService {
 
   async getNewFeeds() {
     try {
-      let data = await this.userModel.aggregate([
+      return await this.userModel.aggregate([
         {
           $lookup: {
             from: "images",
             localField: "_id",
             foreignField: "userId",
-            as: "image",
+            as: "images",
+          },
+        },
+        {
+          $lookup: {
+            from: "interests",
+            localField: "_id",
+            foreignField: "userId",
+            as: "Interests",
+          },
+        },
+        {
+          $lookup: {
+            from: "socials",
+            localField: "_id",
+            foreignField: "userId",
+            as: "socials",
+          },
+        },
+        {
+          $lookup: {
+            from: "premiums",
+            localField: "_id",
+            foreignField: "userId",
+            as: "premiums",
           },
         },
       ]);
-      console.log(JSON.stringify(data));
     } catch (error) {
       console.log(error);
     }
+  }
+
+  async matchPartner(data: any) {
+    let isAlredyMatch = await this.matchModel.findOne({
+      partnerId: data.partnerId,
+      userId: data.userId,
+    });
+    if (!isAlredyMatch) {
+      let isMatch = await this.matchModel.findOne({
+        partnerId: data.userId,
+        isMatch: false,
+      });
+      if (isMatch) {
+        return await this.matchModel.updateOne(
+          {
+            _id: isMatch._id,
+          },
+          { isMatch: true }
+        );
+      } else {
+        return await this.matchModel.create({
+          userId: data.userId,
+          partnerId: data.partnerId,
+        });
+      }
+    }
+    return;
   }
 }

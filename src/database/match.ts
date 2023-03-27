@@ -2,14 +2,14 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Types, now, Document, Schema as MongooseSchema } from "mongoose";
 
 @Schema()
-export class Interests extends Document {
+export class Match extends Document {
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: "Users" })
   userId: Types.ObjectId;
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: "Users" })
-  likeId: Types.ObjectId;
+  partnerId: Types.ObjectId;
 
-  @Prop()
+  @Prop({ default: false })
   isMatch: boolean;
 
   @Prop({ default: now() })
@@ -19,4 +19,4 @@ export class Interests extends Document {
   updatedAt: Date;
 }
 
-export const InterestsSchema = SchemaFactory.createForClass(Interests);
+export const MatchSchema = SchemaFactory.createForClass(Match);
