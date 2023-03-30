@@ -21,6 +21,9 @@ export class AuthService {
   ) {}
 
   async createUser(data: any): Promise<Tokens> {
+    if (await this.isExist(data.email)) {
+      throw new NotFoundException("User already exist");
+    }
     const salt = await genSalt(10);
     data.password = await hash(data.password, salt);
     const user = await this.userModel.create(data);
@@ -30,12 +33,8 @@ export class AuthService {
   }
 
   async loginUser(data: any) {
-    console.log(data);
-
-    let existingUser;
-    existingUser = await this.userModel.findOne({
-      email: data.email,
-    });
+    let existingUser: any;
+    existingUser = await this.isExist(data.email);
     if (!existingUser) {
       throw new NotFoundException("User does not exist");
     }
@@ -113,5 +112,11 @@ export class AuthService {
     const salt = await genSalt(10);
     const hashrt = await hash(rt, salt);
     await this.userModel.updateOne({ _id: userId }, { $set: { rt: hashrt } });
+  }
+
+  async isExist(email: any) {
+    return await this.userModel.findOne({
+      email: email,
+    });
   }
 }
