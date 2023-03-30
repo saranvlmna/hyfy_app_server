@@ -39,6 +39,9 @@ export class Users extends Document {
   @Prop({ default: false })
   isPremium: boolean;
 
+  @Prop({ default: true })
+  isActive: boolean;
+
   @Prop()
   password: string;
 
@@ -48,7 +51,7 @@ export class Users extends Document {
   @Prop({ default: now() })
   createdAt: Date;
 
-  @Prop({ default: now() })
+  @Prop()
   updatedAt: Date;
 }
 
