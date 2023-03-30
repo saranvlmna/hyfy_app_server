@@ -1,29 +1,20 @@
 import {
   Body,
   Controller,
-  Delete,
-  Get,
-  Param,
   Post,
-  Put,
-  Req,
   Res,
-  UseGuards,
-  UseInterceptors,
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { loginDto, signupDto } from "../dto";
+import { loginDto, signupDto } from "../shared/dto";
 import { StatusCodes } from "http-status-codes";
-import { Tokens } from "src/types/token";
-import { AuthGuard } from "@nestjs/passport";
-import { Authguard } from "src/shaerd/authgaurd";
+
 
 @Controller("auth")
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post("signup")
-  async signup(@Body() body: signupDto, @Res() res: any): Promise<Tokens> {
+  async signup(@Body() body: signupDto, @Res() res: any) {
     const user = await this.authService.createUser(body);
     return res.status(StatusCodes.OK).json({
       message: "user successfuly created",
@@ -32,7 +23,7 @@ export class AuthController {
   }
 
   @Post("login")
-  async signin(@Body() body: loginDto, @Res() res: any): Promise<Tokens> {
+  async signin(@Body() body: loginDto, @Res() res: any) {
     const user = await this.authService.loginUser(body);
     return res.status(StatusCodes.OK).json({
       message: "user successfully login",

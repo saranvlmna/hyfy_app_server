@@ -6,7 +6,6 @@ import {
 } from "@nestjs/common";
 import { Users } from "../database/users";
 import { genSalt, hash, compare } from "bcrypt";
-import { Tokens } from "src/types/token";
 import { JwtService } from "@nestjs/jwt";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
@@ -18,9 +17,9 @@ export class AuthService {
   constructor(
     @InjectModel(Users.name) private userModel: Model<Users>,
     private jwtService: JwtService
-  ) {}
+  ) { }
 
-  async createUser(data: any): Promise<Tokens> {
+  async createUser(data: any){
     if (await this.isExist(data.email)) {
       throw new NotFoundException("User already exist");
     }
@@ -28,7 +27,7 @@ export class AuthService {
     data.password = await hash(data.password, salt);
     const user = await this.userModel.create(data);
     const token = await this.generateAuthToken(user.id, user.email);
-    await this.updateUserRToken(user, token.refresh_token);
+    await this.updateUser(user, token.refresh_token);
     return token;
   }
 
@@ -56,7 +55,7 @@ export class AuthService {
         existingUser.id,
         existingUser.email
       );
-      await this.updateUserRToken(existingUser, token.refresh_token);
+      await this.updateUser(existingUser, token.refresh_token);
       return token;
     }
   }
@@ -104,14 +103,19 @@ export class AuthService {
       throw new ForbiddenException("Access Denided !!");
     }
     const token = await this.generateAuthToken(user.id, user.email);
-    await this.updateUserRToken(user.id, token.refresh_token);
+    await this.updateUser(user.id, token.refresh_token);
     return token;
   }
 
-  async updateUserRToken(userId: any, rt: string) {
+  async updateUser(userId: any, rt: string) {
     const salt = await genSalt(10);
     const hashrt = await hash(rt, salt);
-    await this.userModel.updateOne({ _id: userId }, { $set: { rt: hashrt } });
+    await this.userModel.updateOne({ _id: userId }, {
+      $set: {
+        rt: hashrt,
+        updatedAt: new Date()
+      }
+    });
   }
 
   async isExist(email: any) {
