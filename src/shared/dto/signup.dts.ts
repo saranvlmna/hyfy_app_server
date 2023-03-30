@@ -13,6 +13,9 @@ export class signupDto {
   @IsNotEmpty()
   public age: number;
 
+  @IsNotEmpty()
+  public gender: string;
+
   @IsNumber()
   @IsNotEmpty()
   public number: number;
@@ -29,7 +32,4 @@ export class signupDto {
   @IsNotEmpty()
   public password: string;
 
-  @IsString()
-  @IsNotEmpty()
-  public rToken: string;
 }

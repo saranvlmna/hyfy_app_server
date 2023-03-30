@@ -27,7 +27,7 @@ export class AuthService {
     data.password = await hash(data.password, salt);
     const user = await this.userModel.create(data);
     const token = await this.generateAuthToken(user.id, user.email);
-    await this.updateUser(user, token.refresh_token);
+    await this.updateUserLogin(user, token.refresh_token);
     return token;
   }
 
@@ -55,7 +55,7 @@ export class AuthService {
         existingUser.id,
         existingUser.email
       );
-      await this.updateUser(existingUser, token.refresh_token);
+      await this.updateUserLogin(existingUser, token.refresh_token);
       return token;
     }
   }
@@ -103,11 +103,11 @@ export class AuthService {
       throw new ForbiddenException("Access Denided !!");
     }
     const token = await this.generateAuthToken(user.id, user.email);
-    await this.updateUser(user.id, token.refresh_token);
+    await this.updateUserLogin(user.id, token.refresh_token);
     return token;
   }
 
-  async updateUser(userId: any, rt: string) {
+  async updateUserLogin(userId: any, rt: string) {
     const salt = await genSalt(10);
     const hashrt = await hash(rt, salt);
     await this.userModel.updateOne({ _id: userId }, {
