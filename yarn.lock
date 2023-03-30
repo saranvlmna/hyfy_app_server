@@ -21,7 +21,7 @@
     rxjs "6.6.7"
     source-map "0.7.4"
 
-"@angular-devkit/core@15.2.4":
+"@angular-devkit/core@15.2.4", "@angular-devkit/core@^15.2.4":
   version "15.2.4"
   resolved "https://registry.npmjs.org/@angular-devkit/core/-/core-15.2.4.tgz"
   integrity sha512-yl+0j1bMwJLKShsyCXw77tbJG8Sd21+itisPLL2MgEpLNAO252kr9zG4TLlFRJyKVftm2l1h78KjqvM5nbOXNg==
