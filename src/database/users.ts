@@ -11,7 +11,7 @@ export class Users extends Document {
 
   @Prop()
   picture: string;
-  
+
   @Prop()
   age: number;
 

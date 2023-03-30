@@ -100,4 +100,14 @@ export class UserController {
       data: result,
     });
   }
+
+  @Post("update")
+  async updateUser(@Body() body: any, @Res() res: any, @Req() req: any) {
+    body["userId"] = req.user.id;
+    const result = await this.userService.updateUser(body);
+    return res.status(StatusCodes.OK).json({
+      message: "User updated successfully",
+      data: result,
+    });
+  }
 }

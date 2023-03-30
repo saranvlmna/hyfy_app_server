@@ -8,6 +8,6 @@ export class CommunicationService {
       to: "saranvlmna@gmail.com",
       subject: "Congratulations! Wellcome To letsChat datingApp",
     };
-      return await this.mailService.sendMail(data ? data : testMail);
+    return await this.mailService.sendMail(data ? data : testMail);
   }
 }

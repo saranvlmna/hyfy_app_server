@@ -12,8 +12,8 @@ import { CommunicationModule } from "../communication/communication.module";
   imports: [
     MongooseModule.forFeature([{ name: Users.name, schema: UserSchema }]),
     JwtModule,
-    CommunicationModule
+    CommunicationModule,
   ],
-  providers: [AuthService,GoogleStrategy],
+  providers: [AuthService, GoogleStrategy],
 })
 export class AuthModule {}
