@@ -1,11 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { Images } from "src/database/images";
-import { Interests } from "src/database/interests";
-import { Match } from "src/database/match";
-import { Social } from "src/database/social";
-import { Users } from "src/database/users";
+import { Images } from "../database/images";
+import { Interests } from "../database/interests";
+import { Match } from "../database/match";
+import { Social } from "../database/social";
+import { Users } from "../database/users";
 
 @Injectable()
 export class UserService {

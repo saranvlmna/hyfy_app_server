@@ -5,7 +5,7 @@ import { Users, UserSchema } from "../database/users";
 import { JwtModule } from "@nestjs/jwt";
 import { MongooseModule } from "@nestjs/mongoose";
 import { GoogleStrategy } from "./auth.googleservice";
-import { CommunicationModule } from "src/communication/communication.module";
+import { CommunicationModule } from "../communication/communication.module";
 
 @Module({
   controllers: [AuthController],

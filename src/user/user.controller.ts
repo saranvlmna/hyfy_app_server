@@ -10,7 +10,7 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 import { StatusCodes } from "http-status-codes";
-import { Authguard } from "src/shared/authgaurd";
+import { Authguard } from "../shared/authgaurd";
 import { UserService } from "./user.service";
 
 @Controller("user")

@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { ChatService } from "./chat.service";
 import { MongooseModule } from "@nestjs/mongoose";
-import { Active, ActiveSchema } from "src/database/liveuser";
+import { Active, ActiveSchema } from "../database/liveuser";
 
 @Module({
   imports: [
