@@ -10,6 +10,9 @@ export class Users extends Document {
   email: string;
 
   @Prop()
+  picture: string;
+  
+  @Prop()
   age: number;
 
   @Prop()
@@ -46,7 +49,7 @@ export class Users extends Document {
   password: string;
 
   @Prop()
-  rToken: string;
+  accessToken: string;
 
   @Prop({ default: now() })
   createdAt: Date;

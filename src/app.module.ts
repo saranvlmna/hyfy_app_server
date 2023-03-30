@@ -6,6 +6,7 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { AuthModule } from "./auth/auth.module";
 import { UserModule } from "./user/user.module";
 import { personalChat } from "./personalChat";
+import { CommunicationModule } from "./communication/communication.module";
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -13,6 +14,7 @@ import { personalChat } from "./personalChat";
     MongooseModule.forRoot(process.env.MONGO_URL),
     AuthModule,
     UserModule,
+    CommunicationModule,
   ],
   providers: [ChatGateway, personalChat],
 })

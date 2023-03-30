@@ -8,11 +8,11 @@ async function bootstrap() {
     new ValidationPipe({
       exceptionFactory: (errors) => {
         throw new BadGatewayException({
-          message: JSON.stringify(errors[0]['constraints']),
+          message: JSON.stringify(errors[0]["constraints"]),
           status: 400,
         });
       },
-    }),
+    })
   );
   await app.listen(port, () => {
     Logger.log(`Let's talk ${port}`);
