@@ -6,6 +6,7 @@ import { JwtModule } from "@nestjs/jwt";
 import { MongooseModule } from "@nestjs/mongoose";
 import { GoogleStrategy } from "./auth.googleservice";
 import { CommunicationModule } from "../communication/communication.module";
+import { errorHandler } from "src/shared/errorhandler";
 
 @Module({
   controllers: [AuthController],
@@ -14,6 +15,6 @@ import { CommunicationModule } from "../communication/communication.module";
     JwtModule,
     CommunicationModule,
   ],
-  providers: [AuthService, GoogleStrategy],
+  providers: [AuthService, GoogleStrategy, errorHandler],
 })
 export class AuthModule {}
