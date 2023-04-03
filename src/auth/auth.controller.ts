@@ -18,19 +18,6 @@ export class AuthController {
     private error: errorHandler
   ) {}
 
-  @Post("create/user")
-  async createuser(@Body() body: any, @Res() res: any) {
-    try {
-      const result = await this.authService.createuser(body);
-      return res.status(StatusCodes.OK).json({
-        message: "User created successfully",
-        data: result,
-      });
-    } catch (error) {
-      this.error.handle(res, error);
-    }
-  }
-
   @Post("signin/email")
   async emailSignIn(@Body() body: any, @Res() res: any) {
     try {
@@ -64,15 +51,21 @@ export class AuthController {
   @Get("google/callback")
   @UseGuards(AuthGuard("google"))
   async googleAuthRedirect(@Req() req: any, @Res() res: any) {
-    const user = await this.authService.googleSignIn(req);
-    const accessToken = await this.authService.generateRefreshToken(user);
-    const refreshtoken = await this.authService.generateAuthToken(user["_id"]);
-    return res.status(StatusCodes.OK).json({
-      message: "User login successfully",
-      data: {
-        accessToken,
-        refreshtoken,
-      },
-    });
+    try {
+      const user = await this.authService.googleSignIn(req);
+      const accessToken = await this.authService.generateRefreshToken(user);
+      const refreshtoken = await this.authService.generateAuthToken(
+        user["_id"]
+      );
+      return res.status(StatusCodes.OK).json({
+        message: "User login successfully",
+        data: {
+          accessToken,
+          refreshtoken,
+        },
+      });
+    } catch (error) {
+      this.error.handle(res, error);
+    }
   }
 }

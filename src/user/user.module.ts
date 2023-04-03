@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { MongooseModule } from "@nestjs/mongoose";
+import { errorHandler } from "src/shared/errorhandler";
 import { Images } from "../database/images";
 import { ImagesSchema } from "../database/images";
 import { Interests, InterestsSchema } from "../database/interests";
@@ -22,7 +23,7 @@ import { UserService } from "./user.service";
     ]),
     JwtModule,
   ],
-  providers: [UserService],
+  providers: [UserService, errorHandler],
   exports: [UserService],
 })
 export class UserModule {}
