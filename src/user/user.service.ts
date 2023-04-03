@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadGatewayException, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Images } from "../database/images";
@@ -35,7 +35,7 @@ export class UserService {
     return this.userModel.deleteOne({ id: id });
   }
 
-  async updateSocialLinks(data) {
+  async updateSocialLinks(data: any) {
     let existSocialData = await this.socialModel.findOne({
       userId: data.userId,
     });
@@ -53,7 +53,7 @@ export class UserService {
     }
   }
 
-  async updateInterests(data) {
+  async updateInterests(data: any) {
     let existInterests = await this.interestsModel.findOne({
       userId: data.userId,
     });
@@ -69,7 +69,7 @@ export class UserService {
     }
   }
 
-  async updateImages(data) {
+  async updateImages(data: any) {
     let existInterests = await this.imagesModel.findOne({
       userId: data.userId,
     });
@@ -160,5 +160,13 @@ export class UserService {
       },
       data
     );
+  }
+
+  async createUser(data: any) {
+    let isUserExist = await this.findUser(data.email);
+    if (isUserExist) {
+      throw new BadGatewayException("User already exist");
+    }
+    return await this.userModel.create(data);
   }
 }

@@ -10,7 +10,7 @@ import {
 import { AuthService } from "./auth.service";
 import { AuthGuard } from "@nestjs/passport";
 import { StatusCodes } from "http-status-codes";
-import { errorHandler } from "src/shared/errorhandler";
+import { errorHandler } from "../shared/errorhandler";
 @Controller("auth")
 export class AuthController {
   constructor(
@@ -18,14 +18,53 @@ export class AuthController {
     private error: errorHandler
   ) {}
 
-  @Get()
-  @UseGuards(AuthGuard("google"))
-  async googleAuth(@Req() req: any) {} 
+  @Post("create/user")
+  async createuser(@Body() body: any, @Res() res: any) {
+    try {
+      const result = await this.authService.createuser(body);
+      return res.status(StatusCodes.OK).json({
+        message: "User created successfully",
+        data: result,
+      });
+    } catch (error) {
+      this.error.handle(res, error);
+    }
+  }
 
-  @Get("callback")
+  @Post("signin/email")
+  async emailSignIn(@Body() body: any, @Res() res: any) {
+    try {
+      const result = await this.authService.emailSignIn(body.email);
+      return res.status(StatusCodes.OK).json({
+        message: "Email otp sent successfully",
+        data: result,
+      });
+    } catch (error) {
+      this.error.handle(res, error);
+    }
+  }
+
+  @Post("signin/mobile")
+  async mobileSignIn(@Body() body: any, @Res() res: any) {
+    try {
+      const result = await this.authService.mobileSignIn(body.mobile);
+      return res.status(StatusCodes.OK).json({
+        message: "mobile otp sent successfully",
+        data: result,
+      });
+    } catch (error) {
+      this.error.handle(res, error);
+    }
+  }
+
+  @Get("google")
+  @UseGuards(AuthGuard("google"))
+  async googleAuth(@Req() req: any) {}
+
+  @Get("google/callback")
   @UseGuards(AuthGuard("google"))
   async googleAuthRedirect(@Req() req: any, @Res() res: any) {
-    const user = await this.authService.findOrCreate(req);
+    const user = await this.authService.googleSignIn(req);
     const accessToken = await this.authService.generateRefreshToken(user);
     const refreshtoken = await this.authService.generateAuthToken(user["_id"]);
     return res.status(StatusCodes.OK).json({
@@ -35,15 +74,5 @@ export class AuthController {
         refreshtoken,
       },
     });
-  }
-
-  @Post("/email")
-  async emailSignIn(@Body() body: any, @Res() res: any) {
-    try {
-      const result = await this.authService.emailSignIn(body.email);
-      return result;
-    } catch (error) {
-      this.error.handle(res, error);
-    }
   }
 }

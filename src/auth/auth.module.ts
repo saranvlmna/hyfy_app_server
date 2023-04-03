@@ -6,9 +6,9 @@ import { JwtModule } from "@nestjs/jwt";
 import { MongooseModule } from "@nestjs/mongoose";
 import { GoogleStrategy } from "./auth.googleservice";
 import { CommunicationModule } from "../communication/communication.module";
-import { errorHandler } from "src/shared/errorhandler";
-import { Otp, OtpSchema } from "src/database/otp";
-import { UserModule } from "src/user/user.module";
+import { errorHandler } from "../shared/errorhandler";
+import { Otp, OtpSchema } from "../database/otp";
+import { UserModule } from "../user/user.module";
 
 @Module({
   imports: [
