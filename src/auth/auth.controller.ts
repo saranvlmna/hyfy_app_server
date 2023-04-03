@@ -8,7 +8,7 @@ export class AuthController {
 
   @Get()
   @UseGuards(AuthGuard("google"))
-  async googleAuth(@Req() req: any) {}
+  async googleAuth(@Req() req: any) {} 
 
   @Get("callback")
   @UseGuards(AuthGuard("google"))
