@@ -6,14 +6,21 @@ import { JwtModule } from "@nestjs/jwt";
 import { MongooseModule } from "@nestjs/mongoose";
 import { GoogleStrategy } from "./auth.googleservice";
 import { CommunicationModule } from "../communication/communication.module";
+import { errorHandler } from "src/shared/errorhandler";
+import { Otp, OtpSchema } from "src/database/otp";
+import { UserModule } from "src/user/user.module";
 
 @Module({
-  controllers: [AuthController],
   imports: [
-    MongooseModule.forFeature([{ name: Users.name, schema: UserSchema }]),
+    MongooseModule.forFeature([
+      { name: Users.name, schema: UserSchema },
+      { name: Otp.name, schema: OtpSchema },
+    ]),
     JwtModule,
     CommunicationModule,
+    UserModule,
   ],
-  providers: [AuthService, GoogleStrategy],
+  controllers: [AuthController],
+  providers: [AuthService, GoogleStrategy, errorHandler],
 })
 export class AuthModule {}
