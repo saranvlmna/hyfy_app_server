@@ -67,16 +67,16 @@ export class AuthService {
     return await this.communicationService.sendOtpNotification(otpContent);
   }
 
-  async googleSignIn(req: any) {
-    if (req.user) {
+  async googleSignIn(data: any) {
+    if (data.user) {
       let isExistUser: Users;
-      isExistUser = await this.userServicre.findUser(req.user.email);
+      isExistUser = await this.userServicre.findUser(data.user.email);
       if (!isExistUser) {
         return await this.userServicre
-          .createUser(req.user)
+          .createUser(data.user)
           .then(async (res: any) => {
             let mailContent = {
-              to: req.user.email,
+              to: data.user.email,
               subject: "Congratulations! Wellcome To Vingle app",
             };
             await this.communicationService.sendMailNotification(mailContent);

@@ -18,10 +18,10 @@ export class AuthController {
     private error: errorHandler
   ) {}
 
-  @Post("user/create")
+  @Post("user/google/signin")
   async createuser(@Body() body: any, @Res() res: any) {
     try {
-      const user = await this.authService.createUser(body);
+      const user = await this.authService.googleSignIn(body);
       const accessToken = await this.authService.generateAccessToken(user);
       return res.status(StatusCodes.OK).json({
         message: "User Created successfully",
