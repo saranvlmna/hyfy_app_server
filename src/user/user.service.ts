@@ -17,10 +17,15 @@ export class UserService {
     @InjectModel(Match.name) private matchModel: Model<Match>
   ) {}
 
-  async findUser(email: any) {
-    return await this.userModel.findOne({
-      email: email,
-    });
+  async findUser(data: any) {
+    let filter = data.email
+      ? { email: data.email }
+      : data.mobile
+      ? { mobile: data.mobile }
+      : data._id
+      ? { _id: data.userId }
+      : null;
+    return await this.userModel.findOne(filter);
   }
 
   async findAll() {

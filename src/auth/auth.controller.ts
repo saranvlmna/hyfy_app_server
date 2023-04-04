@@ -18,12 +18,12 @@ export class AuthController {
     private error: errorHandler
   ) {}
 
-  @Post("signin/email")
-  async emailSignIn(@Body() body: any, @Res() res: any) {
+  @Post("signin")
+  async userSignIn(@Body() body: any, @Res() res: any) {
     try {
-      const result = await this.authService.emailSignIn(body.email);
+      const result = await this.authService.userSignIn(body);
       return res.status(StatusCodes.OK).json({
-        message: "Email otp sent successfully",
+        message: "Otp send successfully",
         data: result,
       });
     } catch (error) {
@@ -31,12 +31,12 @@ export class AuthController {
     }
   }
 
-  @Post("signin/mobile")
-  async mobileSignIn(@Body() body: any, @Res() res: any) {
+  @Post("otp/verify")
+  async otpVerification(@Body() body: any, @Res() res: any) {
     try {
-      const result = await this.authService.mobileSignIn(body.mobile);
+      const result = await this.authService.otpVerification(body);
       return res.status(StatusCodes.OK).json({
-        message: "mobile otp sent successfully",
+        message: "Otp Verify successfully",
         data: result,
       });
     } catch (error) {

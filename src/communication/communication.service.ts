@@ -10,4 +10,8 @@ export class CommunicationService {
     };
     return await this.mailService.sendMail(data ? data : testMail);
   }
+
+  async sendOtpNotification(data?: any) {
+    console.log(data);
+  }
 }

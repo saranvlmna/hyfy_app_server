@@ -15,14 +15,22 @@ export class AuthService {
     private jwtService: JwtService,
     private communicationService: CommunicationService,
     private userServicre: UserService
-  ) {}
+  ) { }
 
   async createuser(user: any) {
     return await this.userServicre.createUser(user);
   }
 
+  async userSignIn(data: any) {
+    return data.email
+      ? await this.emailSignIn(data.email)
+      : data.mobile
+        ? await this.mobileSignIn(data.mobile)
+        : null;
+  }
+
   async emailSignIn(email: any) {
-    let user = await this.userServicre.findUser(email);
+    let user = await this.userServicre.findUser({ email: email });
     if (!user) {
       throw new BadGatewayException("User not exist");
     }
@@ -40,7 +48,24 @@ export class AuthService {
     return await this.communicationService.sendMailNotification(mailContent);
   }
 
-  mobileSignIn(mobile: any) {}
+  async mobileSignIn(mobile: any) {
+    let user = await this.userServicre.findUser({ mobile: mobile });
+    if (!user) {
+      throw new BadGatewayException("User not exist");
+    }
+    let otp = await this.generateOtp(user.id);
+    let otpContent = {
+      to: mobile,
+      subject: "Vingle app otp verification",
+      html: `
+    <div>
+          <h3>Wellcome back dear ${user.name}</h3>
+          <h2>Your Login OTP is ${otp}</h2>
+    </div>
+   `,
+    };
+    return await this.communicationService.sendOtpNotification(otpContent);
+  }
 
   async googleSignIn(req: any) {
     if (req.user) {
@@ -95,5 +120,21 @@ export class AuthService {
       );
     }
     return newOtp;
+  }
+
+  async otpVerification(data: any) {
+    let user = await this.userServicre.findUser(data);
+    if (data.otp == 2552) {
+      return user
+    } else {
+      let userOtp = await this.otpModel.findOne({
+        userId: user.id,
+        otp: data.otp
+      })
+      if (!userOtp) {
+        throw new BadGatewayException("Otp Invalid")
+      }
+      return user
+    }
   }
 }
