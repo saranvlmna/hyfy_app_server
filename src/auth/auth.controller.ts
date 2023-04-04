@@ -68,13 +68,18 @@ export class AuthController {
     }
   }
 
+  @UseInterceptors(Authguard)
   @Post("otp/verify")
-  async otpVerification(@Body() body: any, @Res() res: any) {
+  async otpVerification(@Body() body: any, @Res() res: any, @Req() req: any) {
     try {
+      body["userId"] = req.user._id;
       const result = await this.authService.otpVerification(body);
+      const accessToken = await this.authService.generateAccessToken(result);
       return res.status(StatusCodes.OK).json({
         message: "Otp Verify successfully",
-        data: result,
+        data: {
+          accessToken,
+        },
       });
     } catch (error) {
       this.error.handle(res, error);

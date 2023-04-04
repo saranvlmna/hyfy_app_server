@@ -24,7 +24,7 @@ export class Users extends Document {
   @Prop()
   mobile: number;
 
-  @Prop({ defaultOptions: false })
+  @Prop({ default: false })
   mobileVerified: boolean;
 
   @Prop()

@@ -159,7 +159,7 @@ export class UserService {
   }
 
   async updateUser(data: any) {
-    return await this.imagesModel.updateOne(
+    return await this.userModel.updateOne(
       {
         userId: data.userId,
       },
