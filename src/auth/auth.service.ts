@@ -17,7 +17,7 @@ export class AuthService {
     private userServicre: UserService
   ) { }
 
-  async createuser(user: any) {
+  async createUser(user: any) {
     return await this.userServicre.createUser(user);
   }
 
@@ -87,18 +87,10 @@ export class AuthService {
     }
   }
 
-  generateAuthToken(user: Users) {
+  generateAccessToken(user: any) {
     let payload = { user };
     return this.jwtService.signAsync(payload, {
       secret: process.env.ACCESS_TOKEN_SECRET,
-      expiresIn: "1h",
-    });
-  }
-
-  generateRefreshToken(userId: any) {
-    let payload = { userId };
-    return this.jwtService.signAsync(payload, {
-      secret: process.env.REFRESH_TOKEN_SECRET,
       expiresIn: "30d",
     });
   }

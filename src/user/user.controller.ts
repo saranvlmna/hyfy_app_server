@@ -21,19 +21,6 @@ export class UserController {
     private error: errorHandler
   ) {}
 
-  @Post("create")
-  async createuser(@Body() body: any, @Res() res: any) {
-    try {
-      const result = await this.userService.createUser(body);
-      return res.status(StatusCodes.OK).json({
-        message: "User created successfully",
-        data: result,
-      });
-    } catch (error) {
-      this.error.handle(res, error);
-    }
-  }
-
   @UseInterceptors(Authguard)
   @Get("list")
   async listAllUsers(@Res() res: any) {

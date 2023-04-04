@@ -18,6 +18,22 @@ export class AuthController {
     private error: errorHandler
   ) {}
 
+  @Post("user/create")
+  async createuser(@Body() body: any, @Res() res: any) {
+    try {
+      const user = await this.authService.createUser(body);
+      const accessToken = await this.authService.generateAccessToken(user);
+      return res.status(StatusCodes.OK).json({
+        message: "User Created successfully",
+        data: {
+          accessToken,
+        },
+      });
+    } catch (error) {
+      this.error.handle(res, error);
+    }
+  }
+
   @Post("signin")
   async userSignIn(@Body() body: any, @Res() res: any) {
     try {
@@ -53,15 +69,11 @@ export class AuthController {
   async googleAuthRedirect(@Req() req: any, @Res() res: any) {
     try {
       const user = await this.authService.googleSignIn(req);
-      const accessToken = await this.authService.generateRefreshToken(user);
-      const refreshtoken = await this.authService.generateAuthToken(
-        user["_id"]
-      );
+      const accessToken = await this.authService.generateAccessToken(user);
       return res.status(StatusCodes.OK).json({
         message: "User login successfully",
         data: {
           accessToken,
-          refreshtoken,
         },
       });
     } catch (error) {
