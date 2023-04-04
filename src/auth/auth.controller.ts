@@ -6,11 +6,13 @@ import {
   Req,
   Res,
   UseGuards,
+  UseInterceptors,
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { AuthGuard } from "@nestjs/passport";
 import { StatusCodes } from "http-status-codes";
 import { errorHandler } from "../shared/errorhandler";
+import { Authguard } from "src/shared/authgaurd";
 @Controller("auth")
 export class AuthController {
   constructor(
@@ -40,6 +42,25 @@ export class AuthController {
       const result = await this.authService.userSignIn(body);
       return res.status(StatusCodes.OK).json({
         message: "Otp send successfully",
+        data: result,
+      });
+    } catch (error) {
+      this.error.handle(res, error);
+    }
+  }
+
+  @UseInterceptors(Authguard)
+  @Post("mobile/update")
+  async mobileVerification(
+    @Body() body: any,
+    @Res() res: any,
+    @Req() req: any
+  ) {
+    try {
+      body["userId"] = req.user._id;
+      const result = await this.authService.updateUserMobile(body);
+      return res.status(StatusCodes.OK).json({
+        message: "Mobile otp send successfully",
         data: result,
       });
     } catch (error) {

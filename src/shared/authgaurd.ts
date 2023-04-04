@@ -35,7 +35,7 @@ export class Authguard implements NestInterceptor {
       response.status(401).json({ message: "unauthorised" });
     }
     if (!decoded) response.status(401).json({ message: "unauthorised" });
-    const user = await this.userModel.findOne({ _id: decoded.id });
+    const user = await this.userModel.findOne({ _id: decoded.user._id });
     request["user"] = user;
     return next.handle();
   }

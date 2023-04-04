@@ -15,7 +15,7 @@ export class AuthService {
     private jwtService: JwtService,
     private communicationService: CommunicationService,
     private userServicre: UserService
-  ) { }
+  ) {}
 
   async createUser(user: any) {
     return await this.userServicre.createUser(user);
@@ -25,8 +25,8 @@ export class AuthService {
     return data.email
       ? await this.emailSignIn(data.email)
       : data.mobile
-        ? await this.mobileSignIn(data.mobile)
-        : null;
+      ? await this.mobileSignIn(data.mobile)
+      : null;
   }
 
   async emailSignIn(email: any) {
@@ -95,38 +95,52 @@ export class AuthService {
     });
   }
 
-  async generateOtp(userId: string) {
-    const newOtp = Math.floor(100000 + Math.random() * 900000);
-    const userOtps = await this.otpModel.findOne({ userId: userId });
-    if (!userOtps) {
-      await this.otpModel.create({
-        userId: userId,
-        otp: newOtp,
-      });
-    } else {
-      await this.otpModel.updateOne(
-        { _id: userOtps.id },
-        {
-          otp: newOtp,
-        }
-      );
-    }
-    return newOtp;
+  async generateOtp(data: any) {
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    await this.otpModel.create({
+      userId: data.userId,
+      otp: otp,
+      mobile: data.mobile ? data.mobile : null,
+      email: data.email ? data.email : null,
+      message: data.message ? data.message : null,
+    });
+    return otp;
   }
 
   async otpVerification(data: any) {
     let user = await this.userServicre.findUser(data);
     if (data.otp == 2552) {
-      return user
+      return user;
     } else {
       let userOtp = await this.otpModel.findOne({
         userId: user.id,
-        otp: data.otp
-      })
+        otp: data.otp,
+      });
       if (!userOtp) {
-        throw new BadGatewayException("Otp Invalid")
+        throw new BadGatewayException("Otp Invalid");
       }
-      return user
+      if (userOtp.message == "update_user_mobile_number") {
+        let updateData = {
+          userId: data.userId,
+          mobileVerified: true,
+        };
+        await this.userServicre.updateUser(updateData);
+      }
+      return user;
     }
+  }
+
+  async updateUserMobile(data: any) {
+    let otp = await this.generateOtp({
+      userId: data.userId,
+      mobile: data.mobile,
+      message: "update_user_mobile_number",
+    });
+    let updateData = {
+      userId: data.userId,
+      mobile: data.mobile,
+    };
+    await this.userServicre.updateUser(updateData);
+    console.log(otp);
   }
 }

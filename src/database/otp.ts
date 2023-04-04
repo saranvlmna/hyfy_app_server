@@ -10,6 +10,12 @@ export class Otp extends Document {
   otp: string;
 
   @Prop()
+  mobile: string;
+
+  @Prop()
+  email: string;
+
+  @Prop()
   message: string;
 
   @Prop({ default: now() })

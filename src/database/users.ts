@@ -9,6 +9,9 @@ export class Users extends Document {
   @Prop()
   email: string;
 
+  @Prop({ defaultOptions: false })
+  emailVerified: boolean;
+
   @Prop()
   picture: string;
 
@@ -20,6 +23,9 @@ export class Users extends Document {
 
   @Prop()
   mobile: number;
+
+  @Prop({ defaultOptions: false })
+  mobileVerified: boolean;
 
   @Prop()
   state: string;
@@ -47,6 +53,9 @@ export class Users extends Document {
 
   @Prop()
   password: string;
+
+  @Prop()
+  signinMethod: string;
 
   @Prop()
   accessToken: string;
