@@ -20,9 +20,10 @@ export class AuthController {
     private error: errorHandler
   ) {}
 
-  @Post("user/google/signin")
+  @Post("signin/google")
   async createuser(@Body() body: any, @Res() res: any) {
     try {
+      body.emailVerified = true
       const user = await this.authService.googleSignIn(body);
       const accessToken = await this.authService.generateAccessToken(user);
       return res.status(StatusCodes.OK).json({
@@ -36,13 +37,16 @@ export class AuthController {
     }
   }
 
-  @Post("signin")
-  async userSignIn(@Body() body: any, @Res() res: any) {
+  @Post("signin/mobile")
+  async mobileSignIn(@Body() body: any, @Res() res: any) {
     try {
-      const result = await this.authService.userSignIn(body);
+      const user = await this.authService.mobileSignIn(body);
+      const accessToken = await this.authService.generateAccessToken(user);
       return res.status(StatusCodes.OK).json({
-        message: "Otp send successfully",
-        data: result,
+        message: "User Created successfully",
+        data: {
+          accessToken,
+        },
       });
     } catch (error) {
       this.error.handle(res, error);

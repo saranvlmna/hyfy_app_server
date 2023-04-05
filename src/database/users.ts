@@ -9,7 +9,7 @@ export class Users extends Document {
   @Prop()
   email: string;
 
-  @Prop({ defaultOptions: false })
+  @Prop({ default: false })
   emailVerified: boolean;
 
   @Prop()
@@ -55,7 +55,7 @@ export class Users extends Document {
   password: string;
 
   @Prop()
-  signinMethod: string;
+  signUpMethod: string;
 
   @Prop()
   accessToken: string;

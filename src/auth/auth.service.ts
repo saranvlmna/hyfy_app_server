@@ -15,19 +15,7 @@ export class AuthService {
     private jwtService: JwtService,
     private communicationService: CommunicationService,
     private userServicre: UserService
-  ) {}
-
-  async createUser(user: any) {
-    return await this.userServicre.createUser(user);
-  }
-
-  async userSignIn(data: any) {
-    return data.email
-      ? await this.emailSignIn(data.email)
-      : data.mobile
-      ? await this.mobileSignIn(data.mobile)
-      : null;
-  }
+  ) { }
 
   async emailSignIn(email: any) {
     let user = await this.userServicre.findUser({ email: email });
@@ -48,23 +36,23 @@ export class AuthService {
     return await this.communicationService.sendMailNotification(mailContent);
   }
 
-  async mobileSignIn(mobile: any) {
-    let user = await this.userServicre.findUser({ mobile: mobile });
-    if (!user) {
-      throw new BadGatewayException("User not exist");
+  async mobileSignIn(data: any) {
+    let isExistUser: any;
+    isExistUser = await this.userServicre.findUser({ mobile:data.mobile});
+    if (!isExistUser) {
+      data.signUpMethod = "mobile"     
+      isExistUser = await this.userServicre.createUser(data)
     }
-    let otp = await this.generateOtp(user.id);
-    let otpContent = {
-      to: mobile,
-      subject: "Vingle app otp verification",
-      html: `
-    <div>
-          <h3>Wellcome back dear ${user.name}</h3>
-          <h2>Your Login OTP is ${otp}</h2>
-    </div>
-   `,
-    };
-    return await this.communicationService.sendOtpNotification(otpContent);
+    let otp = await this.generateOtp({
+      userId: isExistUser._id,
+      mobile: data.mobile,
+      message: "signin_with_mobile",
+    });
+    let messageContent = {
+      otp: otp
+    }
+    await this.communicationService.sendOtpNotification(messageContent);
+    return isExistUser;
   }
 
   async googleSignIn(data: any) {
@@ -72,6 +60,7 @@ export class AuthService {
       let isExistUser: Users;
       isExistUser = await this.userServicre.findUser(data.user.email);
       if (!isExistUser) {
+        data['user'].signUpMethod="google"
         return await this.userServicre
           .createUser(data.user)
           .then(async (res: any) => {
@@ -116,7 +105,7 @@ export class AuthService {
       throw new BadGatewayException("Otp Invalid");
     }
     if (userOtp.otp == data.otp || data.otp == "5225") {
-      if (userOtp.message == "update_user_mobile_number") {
+      if (userOtp.message == "update_user_mobile_number" || userOtp.message == "signin_with_mobile") {
         let updateData = {
           userId: data.userId,
           mobileVerified: true,

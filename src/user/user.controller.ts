@@ -137,6 +137,7 @@ export class UserController {
     }
   }
 
+  @UseInterceptors(Authguard)
   @Post("update")
   async updateUser(@Body() body: any, @Res() res: any, @Req() req: any) {
     try {
