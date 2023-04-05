@@ -1,5 +1,5 @@
 {
-  "name": "vlmna-chatapp-server",
+  "name": "vingle-app-server",
   "version": "0.0.1",
   "description": "<p align=\"center\">   <a href=\"http://nestjs.com/\" target=\"blank\"><img src=\"https://nestjs.com/img/logo-small.svg\" width=\"200\" alt=\"Nest Logo\" /></a> </p>",
   "author": "saranjith p",
@@ -94,5 +94,19 @@
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
   },
-  "main": "index.js"
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saranvlmna/vingle.git"
+  },
+  "keywords": [
+    "vingle",
+    "chat",
+    "aplication",
+    "server"
+  ],
+  "bugs": {
+    "url": "https://github.com/saranvlmna/vingle/issues"
+  },
+  "homepage": "https://github.com/saranvlmna/vingle#readme"
 }
