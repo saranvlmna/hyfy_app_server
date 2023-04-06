@@ -15,7 +15,7 @@ export class AuthService {
     private jwtService: JwtService,
     private communicationService: CommunicationService,
     private userServicre: UserService
-  ) { }
+  ) {}
 
   async emailSignIn(email: any) {
     let user = await this.userServicre.findUser({ email: email });
@@ -38,10 +38,10 @@ export class AuthService {
 
   async mobileSignIn(data: any) {
     let isExistUser: any;
-    isExistUser = await this.userServicre.findUser({ mobile:data.mobile});
+    isExistUser = await this.userServicre.findUser({ mobile: data.mobile });
     if (!isExistUser) {
-      data.signUpMethod = "mobile"     
-      isExistUser = await this.userServicre.createUser(data)
+      data.signUpMethod = "mobile";
+      isExistUser = await this.userServicre.createUser(data);
     }
     let otp = await this.generateOtp({
       userId: isExistUser._id,
@@ -49,8 +49,8 @@ export class AuthService {
       message: "signin_with_mobile",
     });
     let messageContent = {
-      otp: otp
-    }
+      otp: otp,
+    };
     await this.communicationService.sendOtpNotification(messageContent);
     return isExistUser;
   }
@@ -60,7 +60,7 @@ export class AuthService {
       let isExistUser: Users;
       isExistUser = await this.userServicre.findUser(data.user.email);
       if (!isExistUser) {
-        data['user'].signUpMethod="google"
+        data["user"].signUpMethod = "google";
         return await this.userServicre
           .createUser(data.user)
           .then(async (res: any) => {
@@ -105,7 +105,10 @@ export class AuthService {
       throw new BadGatewayException("Otp Invalid");
     }
     if (userOtp.otp == data.otp || data.otp == "5225") {
-      if (userOtp.message == "update_user_mobile_number" || userOtp.message == "signin_with_mobile") {
+      if (
+        userOtp.message == "update_user_mobile_number" ||
+        userOtp.message == "signin_with_mobile"
+      ) {
         let updateData = {
           userId: data.userId,
           mobileVerified: true,

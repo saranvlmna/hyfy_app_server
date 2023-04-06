@@ -23,7 +23,7 @@ export class AuthController {
   @Post("signin/google")
   async createuser(@Body() body: any, @Res() res: any) {
     try {
-      body.emailVerified = true
+      body.emailVerified = true;
       const user = await this.authService.googleSignIn(body);
       const accessToken = await this.authService.generateAccessToken(user);
       return res.status(StatusCodes.OK).json({
