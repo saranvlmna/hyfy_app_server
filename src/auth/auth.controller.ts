@@ -78,12 +78,9 @@ export class AuthController {
     try {
       body["userId"] = req.user._id;
       const result = await this.authService.otpVerification(body);
-      const accessToken = await this.authService.generateAccessToken(result);
       return res.status(StatusCodes.OK).json({
         message: "Otp Verify successfully",
-        data: {
-          accessToken,
-        },
+        data: result,
       });
     } catch (error) {
       this.error.handle(res, error);
