@@ -2,7 +2,7 @@ import {
     Controller, Get, Res,
 } from "@nestjs/common";
 @Controller()
-export class appController {
+export class AppController {
     constructor() { }
 
     @Get()
