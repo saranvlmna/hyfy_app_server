@@ -6,7 +6,7 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { AuthModule } from "./auth/auth.module";
 import { UserModule } from "./user/user.module";
 import { personalChat } from "./personalChat";
-import{AppController}from "./AppController"
+import{AppController}from "./app.controller"
 import { CommunicationModule } from "./communication/communication.module";
 @Module({
   imports: [
@@ -18,6 +18,6 @@ import { CommunicationModule } from "./communication/communication.module";
     CommunicationModule,
   ],
   providers: [ChatGateway, personalChat],
-  controller:[AppController]
+  controllers:[AppController]
 })
 export class AppModule {}
