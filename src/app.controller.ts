@@ -1,12 +1,10 @@
-import {
-    Controller, Get, Res,
-} from "@nestjs/common";
+import { Controller, Get, Res } from "@nestjs/common";
 @Controller()
 export class AppController {
-    constructor() { }
+  constructor() {}
 
-    @Get()
-    async hEyBuDdY() {
-        return "hey buddy 😌"
-    }
+  @Get()
+  async hEyBuDdY() {
+    return "hey buddy 😌";
+  }
 }
