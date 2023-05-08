@@ -6,6 +6,7 @@ import { Interests } from "../database/interests";
 import { Match } from "../database/match";
 import { Social } from "../database/social";
 import { Users } from "../database/users";
+const ObjectID = require("mongodb").ObjectID;
 
 @Injectable()
 export class UserService {
@@ -173,5 +174,47 @@ export class UserService {
       throw new BadGatewayException("User already exist");
     }
     return await this.userModel.create(data);
+  }
+
+  async getUser(userId: any) {
+    return await this.userModel.aggregate([
+      {
+        $match: {
+          _id: new ObjectID(userId),
+        },
+      },
+      {
+        $lookup: {
+          from: "images",
+          localField: "_id",
+          foreignField: "userId",
+          as: "images",
+        },
+      },
+      {
+        $lookup: {
+          from: "interests",
+          localField: "_id",
+          foreignField: "userId",
+          as: "Interests",
+        },
+      },
+      {
+        $lookup: {
+          from: "socials",
+          localField: "_id",
+          foreignField: "userId",
+          as: "socials",
+        },
+      },
+      {
+        $lookup: {
+          from: "premiums",
+          localField: "_id",
+          foreignField: "userId",
+          as: "premiums",
+        },
+      },
+    ]);
   }
 }

@@ -22,6 +22,21 @@ export class UserController {
   ) {}
 
   @UseInterceptors(Authguard)
+  @Get("profile")
+  async getUserProfile(@Res() res: any, @Req() req: any) {
+    try {
+      let userId = req.user.id;
+      const users = await this.userService.getUser(userId);
+      return res.status(StatusCodes.OK).json({
+        message: "Profile fetched successfully",
+        data: users,
+      });
+    } catch (error) {
+      this.error.handle(res, error);
+    }
+  }
+
+  @UseInterceptors(Authguard)
   @Get("list")
   async listAllUsers(@Res() res: any) {
     try {
