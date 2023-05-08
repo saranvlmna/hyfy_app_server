@@ -17,7 +17,7 @@ export class Interests extends Document {
 
   @Prop({ default: false })
   isInterestUpdated: boolean;
-  
+
   @Prop({ default: now() })
   createdAt: Date;
 

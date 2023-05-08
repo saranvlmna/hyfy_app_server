@@ -56,16 +56,16 @@ export class AuthService {
   }
 
   async googleSignIn(data: any) {
-    if (data.user) {
+    if (data) {
       let isExistUser: Users;
-      isExistUser = await this.userServicre.findUser(data.user.email);
+      isExistUser = await this.userServicre.findUser(data.email);
       if (!isExistUser) {
-        data["user"].signUpMethod = "google";
+        data.signUpMethod = "google";
         return await this.userServicre
           .createUser(data.user)
           .then(async (res: any) => {
             let mailContent = {
-              to: data.user.email,
+              to: data.email,
               subject: "Congratulations! Wellcome To Vingle app",
             };
             await this.communicationService.sendMailNotification(mailContent);
@@ -73,6 +73,15 @@ export class AuthService {
           });
       }
       return isExistUser;
+    }
+  }
+
+  async userSignin(data: any) {
+    if (data.signUpMethod == "mobile") {
+      return await this.mobileSignIn(data);
+    }
+    if (data.signUpMethod == "google") {
+      return await this.googleSignIn(data);
     }
   }
 
