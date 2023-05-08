@@ -62,7 +62,7 @@ export class AuthService {
       if (!isExistUser) {
         data.signUpMethod = "google";
         return await this.userServicre
-          .createUser(data.user)
+          .createUser(data)
           .then(async (res: any) => {
             let mailContent = {
               to: data.email,
