@@ -15,7 +15,7 @@ export class AuthService {
     private jwtService: JwtService,
     private communicationService: CommunicationService,
     private userServicre: UserService
-  ) {}
+  ) { }
 
   async emailSignIn(email: any) {
     let user = await this.userServicre.findUser({ email: email });
@@ -131,7 +131,7 @@ export class AuthService {
   }
 
   async updateUserMobile(data: any) {
-    let otp = await this.generateOtp({
+    await this.generateOtp({
       userId: data.userId,
       mobile: data.mobile,
       message: "update_user_mobile_number",
@@ -140,7 +140,6 @@ export class AuthService {
       userId: data.userId,
       mobile: data.mobile,
     };
-    await this.userServicre.updateUser(updateData);
-    console.log(otp);
+    return await this.userServicre.updateUser(updateData);
   }
 }
