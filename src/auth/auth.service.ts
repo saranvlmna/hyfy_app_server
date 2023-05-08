@@ -116,6 +116,8 @@ export class AuthService {
         await this.userServicre.updateUser(updateData);
       }
       return user;
+    } else {
+      throw new BadGatewayException("Otp Invalid");
     }
   }
 
