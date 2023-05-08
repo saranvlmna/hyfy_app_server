@@ -45,8 +45,6 @@ export class UserService {
     let existSocialData = await this.socialModel.findOne({
       userId: data.userId,
     });
-    console.log(existSocialData);
-
     if (!existSocialData) {
       return await this.socialModel.create(data);
     } else {
