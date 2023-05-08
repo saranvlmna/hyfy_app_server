@@ -6,7 +6,7 @@ export class Social extends Document {
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: "Users" })
   userId: Types.ObjectId;
 
-  @Prop()
+  @Prop() 
   instagram: string;
 
   @Prop()
