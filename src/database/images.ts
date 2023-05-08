@@ -15,6 +15,9 @@ export class Images extends Document {
   @Prop()
   file3: string;
 
+  @Prop({ default: false })
+  isImageUpdated: boolean;
+
   @Prop({ default: now() })
   createdAt: Date;
 

@@ -42,6 +42,7 @@ export class UserService {
   }
 
   async updateSocialLinks(data: any) {
+    data['isSocailUpdated']=true
     let existSocialData = await this.socialModel.findOne({
       userId: data.userId,
     });
@@ -58,6 +59,7 @@ export class UserService {
   }
 
   async updateInterests(data: any) {
+    data['isInterstUpdated'] = true
     let existInterests = await this.interestsModel.findOne({
       userId: data.userId,
     });
@@ -74,6 +76,7 @@ export class UserService {
   }
 
   async updateImages(data: any) {
+    data['isImageUpdated'] = true
     let existInterests = await this.imagesModel.findOne({
       userId: data.userId,
     });

@@ -22,6 +22,9 @@ export class Social extends Document {
   spotify: string;
 
   @Prop({ default: now() })
+  isSocailUpdated: boolean;
+
+  @Prop({ default: now() })
   createdAt: Date;
 
   @Prop({ default: now() })
