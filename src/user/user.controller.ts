@@ -7,12 +7,14 @@ import {
   Put,
   Req,
   Res,
+  UploadedFiles,
   UseInterceptors,
 } from "@nestjs/common";
 import { StatusCodes } from "http-status-codes";
 import { errorHandler } from "src/shared/errorhandler";
 import { Authguard } from "../shared/authgaurd";
 import { UserService } from "./user.service";
+import { AnyFilesInterceptor } from "@nestjs/platform-express";
 
 @Controller("user")
 export class UserController {
@@ -122,10 +124,13 @@ export class UserController {
     }
   }
 
+  @UseInterceptors(AnyFilesInterceptor())
   @UseInterceptors(Authguard)
   @Post("update/images")
-  async updateImages(@Body() body: any, @Res() res: any, @Req() req: any) {
+  async updateImages(@Body() body: any, @Res() res: any, @Req() req: any,
+    @UploadedFiles() files: Array<Express.Multer.File>) {
     try {
+      console.log(files)
       body["userId"] = req.user.id;
       const result = await this.userService.updateImages(body);
       return res.status(StatusCodes.OK).json({

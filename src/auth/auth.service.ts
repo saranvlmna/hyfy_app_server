@@ -15,7 +15,7 @@ export class AuthService {
     private jwtService: JwtService,
     private communicationService: CommunicationService,
     private userServicre: UserService
-  ) { }
+  ) {}
 
   async emailSignIn(email: any) {
     let user = await this.userServicre.findUser({ email: email });
