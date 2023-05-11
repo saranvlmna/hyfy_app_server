@@ -7,12 +7,23 @@ import {
   Put,
   Req,
   Res,
+  UploadedFiles,
   UseInterceptors,
 } from "@nestjs/common";
 import { StatusCodes } from "http-status-codes";
 import { errorHandler } from "src/shared/errorhandler";
 import { Authguard } from "../shared/authgaurd";
 import { UserService } from "./user.service";
+import {
+  AnyFilesInterceptor,
+  FilesInterceptor,
+} from "@nestjs/platform-express";
+import { diskStorage } from "multer";
+import { extname } from "path";
+import { v4 } from "uuid";
+import { uploadFile } from "src/shared/firebaseFileupload";
+const path = require("path");
+const dir = path.join(__dirname);
 
 @Controller("user")
 export class UserController {
@@ -123,13 +134,27 @@ export class UserController {
   }
 
   @UseInterceptors(Authguard)
-  @Post("update/images")
+  @UseInterceptors(
+    FilesInterceptor("userPost", 5, {
+      storage: diskStorage({
+        destination: dir,
+        filename: (req, file, callback) => {
+          const fileExtName = extname(file.originalname);
+          const randomName = v4();
+          callback(null, `${randomName}${fileExtName}`);
+          req.body.path = dir + "/" + `${randomName}${fileExtName}`;
+        },
+      }),
+    })
+  )
+  @Post("update/post")
   async updateImages(@Body() body: any, @Res() res: any, @Req() req: any) {
     try {
       body["userId"] = req.user.id;
+      body["postUrl"] = await uploadFile(req.body.path);
       const result = await this.userService.updateImages(body);
       return res.status(StatusCodes.OK).json({
-        message: "Images updated successfully",
+        message: "Posted successfully",
         data: result,
       });
     } catch (error) {

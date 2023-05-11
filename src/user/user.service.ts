@@ -23,7 +23,7 @@ export class UserService {
       ? { email: data.email }
       : data.mobile
       ? { mobile: data.mobile }
-      : data._id
+      : data.userId
       ? { _id: data.userId }
       : null;
     return await this.userModel.findOne(filter);
@@ -77,17 +77,25 @@ export class UserService {
 
   async updateImages(data: any) {
     data["isImageUpdated"] = true;
-    let existInterests = await this.imagesModel.findOne({
+    data["posts"] = [data.postUrl];
+    let existImages = await this.imagesModel.findOne({
       userId: data.userId,
     });
-    if (!existInterests) {
+    if (!existImages) {
       return await this.imagesModel.create(data);
     } else {
       return await this.imagesModel.updateOne(
         {
           userId: data.userId,
         },
-        data
+        {
+          $push: {
+            posts: data.postUrl,
+          },
+          $set: {
+            isImageUpdated: data["isImageUpdated"],
+          },
+        }
       );
     }
   }
@@ -170,7 +178,7 @@ export class UserService {
   }
 
   async createUser(data: any) {
-    let isUserExist = await this.findUser(data);
+    let isUserExist = await this.findUser({ email: data.email });
     if (isUserExist) {
       throw new BadGatewayException("User already exist");
     }
