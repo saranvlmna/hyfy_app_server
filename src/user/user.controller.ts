@@ -21,7 +21,7 @@ import {
 import { diskStorage } from "multer";
 import { extname } from "path";
 import { v4 } from "uuid";
-import { uploadFile } from "src/shared/firebaseFileupload";
+import { uploadFile } from "../shared/firebaseFileupload";
 const path = require("path");
 const dir = path.join(__dirname);
 
