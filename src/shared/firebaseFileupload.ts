@@ -18,7 +18,10 @@ export async function uploadFile(file: any) {
     gzip: true,
     metadata: metadata,
   });
-  console.log(data);
-  const publicUrl = `https://storage.googleapis.com/${data[0].metadata.bucket}/${data[0].metadata.name}`;
+  const publicUrl =
+    "https://firebasestorage.googleapis.com/v0/b/vingleapp.appspot.com/o/" +
+    data[0].metadata.name +
+    "?alt=media&token=" +
+    data[0].metadata.metadata.firebaseStorageDownloadTokens;
   return publicUrl;
 }
