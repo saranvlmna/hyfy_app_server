@@ -6,6 +6,7 @@ import { Users } from "../database/users";
 import { CommunicationService } from "../communication/communication.service";
 import { UserService } from "../user/user.service";
 import { Otp } from "../database/otp";
+const ObjectID = require("mongodb").ObjectID;
 
 @Injectable()
 export class AuthService {
@@ -15,7 +16,7 @@ export class AuthService {
     private jwtService: JwtService,
     private communicationService: CommunicationService,
     private userServicre: UserService
-  ) { }
+  ) {}
 
   async emailSignIn(email: any) {
     let user = await this.userServicre.findUser({ email: email });
@@ -58,7 +59,7 @@ export class AuthService {
   async googleSignIn(data: any) {
     if (data) {
       let isExistUser: Users;
-      isExistUser = await this.userServicre.findUser(data.email);
+      isExistUser = await this.userServicre.findUser({ email: data.email });
       if (!isExistUser) {
         data.signUpMethod = "google";
         return await this.userServicre
@@ -106,14 +107,22 @@ export class AuthService {
   }
 
   async otpVerification(data: any) {
-    let user = await this.userServicre.findUser(data);
-    let userOtp = await this.otpModel.findOne({
-      userId: user.id,
+    let user = await this.userServicre.findUser({
+      userId: data.userId,
     });
+    if (data.otp == "5225") {
+      return user;
+    }
+    let userOtp = await this.otpModel.findOne(
+      { userId: data.userId },
+      {},
+      { sort: { createdAt: -1 } }
+    );
     if (!userOtp) {
       throw new BadGatewayException("Otp Invalid");
     }
-    if (userOtp.otp == data.otp || data.otp == "5225") {
+    console.log(userOtp.otp, data.otp);
+    if (userOtp.otp == data.otp) {
       if (
         userOtp.message == "update_user_mobile_number" ||
         userOtp.message == "signin_with_mobile"
