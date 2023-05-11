@@ -6,7 +6,6 @@ import { Users } from "../database/users";
 import { CommunicationService } from "../communication/communication.service";
 import { UserService } from "../user/user.service";
 import { Otp } from "../database/otp";
-const ObjectID = require("mongodb").ObjectID;
 
 @Injectable()
 export class AuthService {

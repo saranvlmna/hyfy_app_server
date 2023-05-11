@@ -7,17 +7,13 @@ import {
   Put,
   Req,
   Res,
-  UploadedFiles,
   UseInterceptors,
 } from "@nestjs/common";
 import { StatusCodes } from "http-status-codes";
 import { errorHandler } from "src/shared/errorhandler";
 import { Authguard } from "../shared/authgaurd";
 import { UserService } from "./user.service";
-import {
-  AnyFilesInterceptor,
-  FilesInterceptor,
-} from "@nestjs/platform-express";
+import { FilesInterceptor } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
 import { extname } from "path";
 import { v4 } from "uuid";

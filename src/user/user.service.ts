@@ -178,7 +178,10 @@ export class UserService {
   }
 
   async createUser(data: any) {
-    let isUserExist = await this.findUser({ email: data.email });
+    let isUserExist: any;
+    isUserExist = data.signUpMethod = "mobile"
+      ? await this.findUser({ mobile: data.mobile })
+      : await this.findUser({ email: data.email });
     if (isUserExist) {
       throw new BadGatewayException("User already exist");
     }
