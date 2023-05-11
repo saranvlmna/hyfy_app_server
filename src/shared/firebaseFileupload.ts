@@ -1,7 +1,6 @@
 var admin = require("firebase-admin");
 const uuid = require("uuid-v4");
-import serviceAccount from "./firebaseCredentials.json";
-
+import serviceAccount from "./firebaseKey.json";
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   storageBucket: "vingleapp.appspot.com",
@@ -19,7 +18,7 @@ export async function uploadFile(file: any) {
     gzip: true,
     metadata: metadata,
   });
+  console.log(data);
   const publicUrl = `https://storage.googleapis.com/${data[0].metadata.bucket}/${data[0].metadata.name}`;
-  console.log(publicUrl);
   return publicUrl;
 }
