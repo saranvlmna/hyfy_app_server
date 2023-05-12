@@ -25,6 +25,7 @@ import { uploadFile } from "../shared/firebaseFileupload";
 const path = require("path");
 const dir = path.join(__dirname);
 
+@UseInterceptors(Authguard)
 @Controller("user")
 export class UserController {
   constructor(
@@ -32,7 +33,6 @@ export class UserController {
     private error: errorHandler
   ) {}
 
-  @UseInterceptors(Authguard)
   @Get("profile")
   async getUserProfile(@Res() res: any, @Req() req: any) {
     try {
@@ -47,7 +47,6 @@ export class UserController {
     }
   }
 
-  @UseInterceptors(Authguard)
   @Get("list")
   async listAllUsers(@Res() res: any) {
     try {
@@ -61,7 +60,6 @@ export class UserController {
     }
   }
 
-  @UseInterceptors(Authguard)
   @Get("newfeed")
   async getNewFeeds(@Res() res: any) {
     try {
@@ -75,7 +73,6 @@ export class UserController {
     }
   }
 
-  @UseInterceptors(Authguard)
   @Put("edit")
   async editUser(@Body() body: any, @Res() res: any) {
     try {
@@ -89,7 +86,6 @@ export class UserController {
     }
   }
 
-  @UseInterceptors(Authguard)
   @Delete("delete")
   async deleteUser(@Body() body: any, @Res() res: any) {
     try {
@@ -103,7 +99,6 @@ export class UserController {
     }
   }
 
-  @UseInterceptors(Authguard)
   @Post("update/social")
   async updateSocialLinks(@Body() body: any, @Res() res: any, @Req() req: any) {
     try {
@@ -118,7 +113,6 @@ export class UserController {
     }
   }
 
-  @UseInterceptors(Authguard)
   @Post("update/interests")
   async updateInterests(@Body() body: any, @Res() res: any, @Req() req: any) {
     try {
@@ -133,7 +127,6 @@ export class UserController {
     }
   }
 
-  @UseInterceptors(Authguard)
   @UseInterceptors(AnyFilesInterceptor())
   // @UseInterceptors(
   //   FilesInterceptor("userPost", 5, {
@@ -169,7 +162,6 @@ export class UserController {
     }
   }
 
-  @UseInterceptors(Authguard)
   @Post("match")
   async matchPartner(@Body() body: any, @Res() res: any, @Req() req: any) {
     try {
@@ -184,7 +176,6 @@ export class UserController {
     }
   }
 
-  @UseInterceptors(Authguard)
   @Post("update")
   async updateUser(@Body() body: any, @Res() res: any, @Req() req: any) {
     try {

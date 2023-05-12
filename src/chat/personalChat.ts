@@ -12,10 +12,12 @@ export class personalChat {
     console.log(`socketId ${socket.id}`);
     console.log(`userID ${socket.handshake.query.userId}`);
   }
+
   handleDisconnect(socket: any) {
     console.log(`socketId ${socket.id}`);
     console.log(`userID ${socket.handshake.query.userId}`);
   }
+
   @SubscribeMessage("sendMessage")
   async handleSendMessage(client: any, payload: any): Promise<void> {
     console.log(client.handshake.query.userId);
