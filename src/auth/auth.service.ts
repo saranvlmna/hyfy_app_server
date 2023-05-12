@@ -2,10 +2,10 @@ import { BadGatewayException, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { Users } from "../database/users";
+import { Users } from "../shared/database/users";
 import { CommunicationService } from "../communication/communication.service";
 import { UserService } from "../user/user.service";
-import { Otp } from "../database/otp";
+import { Otp } from "../shared/database/otp";
 
 @Injectable()
 export class AuthService {

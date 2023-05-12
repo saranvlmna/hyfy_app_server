@@ -2,12 +2,12 @@ import { Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { MongooseModule } from "@nestjs/mongoose";
 import { errorHandler } from "src/shared/errorhandler";
-import { Images } from "../database/images";
-import { ImagesSchema } from "../database/images";
-import { Interests, InterestsSchema } from "../database/interests";
-import { Match, MatchSchema } from "../database/match";
-import { Social, SocialSchema } from "../database/social";
-import { Users, UserSchema } from "../database/users";
+import { Images } from "../shared/database/images";
+import { ImagesSchema } from "../shared/database/images";
+import { Interests, InterestsSchema } from "../shared/database/interests";
+import { Match, MatchSchema } from "../shared/database/match";
+import { Social, SocialSchema } from "../shared/database/social";
+import { Users, UserSchema } from "../shared/database/users";
 import { UserController } from "./user.controller";
 import { UserService } from "./user.service";
 

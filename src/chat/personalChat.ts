@@ -3,7 +3,7 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from "@nestjs/websockets";
-import { ChatService } from "./chat/chat.service";
+import { ChatService } from "./chat.service";
 @WebSocketGateway({ cors: true })
 export class personalChat {
   constructor(private chatService: ChatService) {}

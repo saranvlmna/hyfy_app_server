@@ -1,11 +1,11 @@
 import { BadGatewayException, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { Images } from "../database/images";
-import { Interests } from "../database/interests";
-import { Match } from "../database/match";
-import { Social } from "../database/social";
-import { Users } from "../database/users";
+import { Images } from "../shared/database/images";
+import { Interests } from "../shared/database/interests";
+import { Match } from "../shared/database/match";
+import { Social } from "../shared/database/social";
+import { Users } from "../shared/database/users";
 const ObjectID = require("mongodb").ObjectID;
 
 @Injectable()

@@ -14,7 +14,10 @@ import { StatusCodes } from "http-status-codes";
 import { errorHandler } from "src/shared/errorhandler";
 import { Authguard } from "../shared/authgaurd";
 import { UserService } from "./user.service";
-import { AnyFilesInterceptor, FilesInterceptor } from "@nestjs/platform-express";
+import {
+  AnyFilesInterceptor,
+  FilesInterceptor,
+} from "@nestjs/platform-express";
 import { diskStorage } from "multer";
 import { extname } from "path";
 import { v4 } from "uuid";
@@ -146,12 +149,16 @@ export class UserController {
   //   })
   // )
   @Post("update/post")
-  async updateImages(@Body() body: any, @Res() res: any, @Req() req: any,
-    @UploadedFiles() userPosts: Array<Express.Multer.File>,) {
+  async updateImages(
+    @Body() body: any,
+    @Res() res: any,
+    @Req() req: any,
+    @UploadedFiles() userPosts: Array<Express.Multer.File>
+  ) {
     try {
       body["userId"] = req.user.id;
       // body["postUrl"] = await uploadFile(req.body.path);
-      body["postUrl"] = userPosts[0].buffer.toString('base64')
+      body["postUrl"] = userPosts[0].buffer.toString("base64");
       const result = await this.userService.updateImages(body);
       return res.status(StatusCodes.OK).json({
         message: "Posted successfully",
