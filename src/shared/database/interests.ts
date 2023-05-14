@@ -7,13 +7,7 @@ export class Interests extends Document {
   userId: Types.ObjectId;
 
   @Prop()
-  songs: boolean;
-
-  @Prop()
-  reels: boolean;
-
-  @Prop()
-  others: Array<string>;
+  data: Array<string>;
 
   @Prop({ default: false })
   isInterestUpdated: boolean;

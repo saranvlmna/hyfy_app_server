@@ -7,7 +7,7 @@ export class Images extends Document {
   userId: Types.ObjectId;
 
   @Prop()
-  posts: Array<string>;
+  userPosts: Array<string>;
 
   @Prop({ default: false })
   isImageUpdated: boolean;

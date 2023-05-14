@@ -10,18 +10,17 @@ import {
   UploadedFiles,
   UseInterceptors,
 } from "@nestjs/common";
-import { StatusCodes } from "http-status-codes";
-import { errorHandler } from "src/shared/errorhandler";
-import { Authguard } from "../shared/authgaurd";
-import { UserService } from "./user.service";
 import {
   AnyFilesInterceptor,
   FilesInterceptor,
 } from "@nestjs/platform-express";
+import { StatusCodes } from "http-status-codes";
+import { errorHandler } from "src/shared/errorhandler";
+import { Authguard } from "../shared/authgaurd";
+import { UserService } from "./user.service";
 import { diskStorage } from "multer";
 import { extname } from "path";
 import { v4 } from "uuid";
-import { uploadFile } from "../shared/firebaseFileupload";
 const path = require("path");
 const dir = path.join(__dirname);
 
@@ -60,25 +59,13 @@ export class UserController {
     }
   }
 
-  @Get("newfeed")
-  async getNewFeeds(@Res() res: any) {
+  @Put("update")
+  async updateUser(@Body() body: any, @Res() res: any, @Req() req: any) {
     try {
-      const users = await this.userService.getNewFeeds();
+      body["userId"] = req.user.id;
+      const result = await this.userService.updateUser(body);
       return res.status(StatusCodes.OK).json({
-        message: "Feeds listed successfully",
-        data: users,
-      });
-    } catch (error) {
-      this.error.handle(res, error);
-    }
-  }
-
-  @Put("edit")
-  async editUser(@Body() body: any, @Res() res: any) {
-    try {
-      const result = await this.userService.editUser(body, body.id);
-      return res.status(StatusCodes.OK).json({
-        message: "user edited sucessfully",
+        message: "User updated successfully",
         data: result,
       });
     } catch (error) {
@@ -86,20 +73,7 @@ export class UserController {
     }
   }
 
-  @Delete("delete")
-  async deleteUser(@Body() body: any, @Res() res: any) {
-    try {
-      const result = await this.userService.deleteUser(body.id);
-      return res.status(StatusCodes.OK).json({
-        message: "user deleted successfully",
-        data: result,
-      });
-    } catch (error) {
-      this.error.handle(res, error);
-    }
-  }
-
-  @Post("update/social")
+  @Put("update/social")
   async updateSocialLinks(@Body() body: any, @Res() res: any, @Req() req: any) {
     try {
       body["userId"] = req.user.id;
@@ -113,7 +87,7 @@ export class UserController {
     }
   }
 
-  @Post("update/interests")
+  @Put("update/interests")
   async updateInterests(@Body() body: any, @Res() res: any, @Req() req: any) {
     try {
       body["userId"] = req.user.id;
@@ -128,20 +102,20 @@ export class UserController {
   }
 
   @UseInterceptors(AnyFilesInterceptor())
-  // @UseInterceptors(
-  //   FilesInterceptor("userPost", 5, {
-  //     storage: diskStorage({
-  //       destination: dir,
-  //       filename: (req, file, callback) => {
-  //         const fileExtName = extname(file.originalname);
-  //         const randomName = v4();
-  //         callback(null, `${randomName}${fileExtName}`);
-  //         req.body.path = dir + "/" + `${randomName}${fileExtName}`;
-  //       },
-  //     }),
-  //   })
-  // )
-  @Post("update/post")
+  @UseInterceptors(
+    FilesInterceptor("userPost", 5, {
+      storage: diskStorage({
+        destination: dir,
+        filename: (req, file, callback) => {
+          const fileExtName = extname(file.originalname);
+          const randomName = v4();
+          callback(null, `${randomName}${fileExtName}`);
+          req.body.path = dir + "/" + `${randomName}${fileExtName}`;
+        },
+      }),
+    })
+  )
+  @Put("update/post")
   async updateImages(
     @Body() body: any,
     @Res() res: any,
@@ -162,13 +136,25 @@ export class UserController {
     }
   }
 
-  @Post("match")
-  async matchPartner(@Body() body: any, @Res() res: any, @Req() req: any) {
+  @Get("newfeed")
+  async getNewFeeds(@Res() res: any) {
     try {
-      body["userId"] = req.user.id;
-      const result = await this.userService.matchPartner(body);
+      const users = await this.userService.getNewFeeds();
       return res.status(StatusCodes.OK).json({
-        message: "Parter matched successfully",
+        message: "Feeds listed successfully",
+        data: users,
+      });
+    } catch (error) {
+      this.error.handle(res, error);
+    }
+  }
+
+  @Delete("delete")
+  async deleteUser(@Body() body: any, @Res() res: any) {
+    try {
+      const result = await this.userService.deleteUser(body.id);
+      return res.status(StatusCodes.OK).json({
+        message: "user deleted successfully",
         data: result,
       });
     } catch (error) {
@@ -176,13 +162,13 @@ export class UserController {
     }
   }
 
-  @Post("update")
-  async updateUser(@Body() body: any, @Res() res: any, @Req() req: any) {
+  @Post("match")
+  async matchPartner(@Body() body: any, @Res() res: any, @Req() req: any) {
     try {
       body["userId"] = req.user.id;
-      const result = await this.userService.updateUser(body);
+      const result = await this.userService.matchPartner(body);
       return res.status(StatusCodes.OK).json({
-        message: "User updated successfully",
+        message: "Parter matched successfully",
         data: result,
       });
     } catch (error) {

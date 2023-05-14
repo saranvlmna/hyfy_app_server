@@ -22,5 +22,6 @@ import { UserModule } from "../user/user.module";
   ],
   controllers: [AuthController],
   providers: [AuthService, GoogleStrategy, errorHandler],
+  exports: [AuthService],
 })
 export class AuthModule {}
