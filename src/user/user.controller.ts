@@ -102,30 +102,30 @@ export class UserController {
   }
 
   @UseInterceptors(AnyFilesInterceptor())
-  @UseInterceptors(
-    FilesInterceptor("userPost", 5, {
-      storage: diskStorage({
-        destination: dir,
-        filename: (req, file, callback) => {
-          const fileExtName = extname(file.originalname);
-          const randomName = v4();
-          callback(null, `${randomName}${fileExtName}`);
-          req.body.path = dir + "/" + `${randomName}${fileExtName}`;
-        },
-      }),
-    })
-  )
+  // @UseInterceptors(
+  //   FilesInterceptor("userPost", 5, {
+  //     storage: diskStorage({
+  //       destination: dir,
+  //       filename: (req, file, callback) => {
+  //         const fileExtName = extname(file.originalname);
+  //         const randomName = v4();
+  //         callback(null, `${randomName}${fileExtName}`);
+  //         req.body.path = dir + "/" + `${randomName}${fileExtName}`;
+  //       },
+  //     }),
+  //   })
+  // )
   @Put("update/post")
   async updateImages(
     @Body() body: any,
     @Res() res: any,
     @Req() req: any,
-    @UploadedFiles() userPosts: Array<Express.Multer.File>
+    @UploadedFiles() userPost: Array<Express.Multer.File>
   ) {
     try {
       body["userId"] = req.user.id;
       // body["postUrl"] = await uploadFile(req.body.path);
-      body["postUrl"] = userPosts[0].buffer.toString("base64");
+      body["postUrl"] = userPost[0].buffer.toString("base64");
       const result = await this.userService.updateImages(body);
       return res.status(StatusCodes.OK).json({
         message: "Posted successfully",

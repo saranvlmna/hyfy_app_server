@@ -120,7 +120,6 @@ export class AuthService {
     if (!userOtp) {
       throw new BadGatewayException("Otp Invalid");
     }
-    console.log(userOtp.otp, data.otp);
     if (userOtp.otp == data.otp) {
       if (
         userOtp.message == "update_user_mobile_number" ||

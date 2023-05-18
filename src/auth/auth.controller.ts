@@ -35,20 +35,6 @@ export class AuthController {
   }
 
   @UseInterceptors(Authguard)
-  @Post("otp/verify")
-  async otpVerification(@Body() body: any, @Res() res: any, @Req() req: any) {
-    try {
-      body["userId"] = req.user._id;
-      const result = await this.authService.otpVerification(body);
-      return res.status(StatusCodes.OK).json({
-        message: "Otp Verify successfully",
-        data: result,
-      });
-    } catch (error) {
-      this.error.handle(res, error);
-    }
-  }
-
   @Put("mobile/update")
   async mobileVerification(
     @Body() body: any,
@@ -60,6 +46,21 @@ export class AuthController {
       const result = await this.authService.updateUserMobile(body);
       return res.status(StatusCodes.OK).json({
         message: "Mobile otp send successfully",
+        data: result,
+      });
+    } catch (error) {
+      this.error.handle(res, error);
+    }
+  }
+
+  @UseInterceptors(Authguard)
+  @Post("otp/verify")
+  async otpVerification(@Body() body: any, @Res() res: any, @Req() req: any) {
+    try {
+      body["userId"] = req.user._id;
+      const result = await this.authService.otpVerification(body);
+      return res.status(StatusCodes.OK).json({
+        message: "Otp Verify successfully",
         data: result,
       });
     } catch (error) {

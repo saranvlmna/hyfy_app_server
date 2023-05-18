@@ -60,7 +60,7 @@ export class UserService {
   }
 
   async updateInterests(data: any) {
-    data["isInterstUpdated"] = true;
+    data["isInterestUpdated"] = true;
     let existInterests = await this.interestsModel.findOne({
       userId: data.userId,
     });
@@ -91,7 +91,7 @@ export class UserService {
         },
         {
           $push: {
-            posts: data.postUrl,
+            userPosts: data.postUrl,
           },
           $set: {
             isImageUpdated: data["isImageUpdated"],
