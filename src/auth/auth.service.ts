@@ -78,9 +78,15 @@ export class AuthService {
 
   async userSignin(data: any) {
     if (data.signUpMethod == "mobile") {
+      if (!data.mobile) {
+        throw new BadGatewayException("Mobile number required");
+      }
       return await this.mobileSignIn(data);
     }
     if (data.signUpMethod == "google") {
+      if (!data.email) {
+        throw new BadGatewayException("EmailId required");
+      }
       return await this.googleSignIn(data);
     }
   }
