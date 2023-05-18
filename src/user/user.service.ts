@@ -78,7 +78,7 @@ export class UserService {
 
   async updateImages(data: any) {
     data["isImageUpdated"] = true;
-    data["posts"] = [data.postUrl];
+    data["userPosts"] = [data.postUrl];
     let existImages = await this.imagesModel.findOne({
       userId: data.userId,
     });
