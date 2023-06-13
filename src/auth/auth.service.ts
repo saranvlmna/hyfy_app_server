@@ -66,7 +66,7 @@ export class AuthService {
           .then(async (res: any) => {
             let mailContent = {
               to: data.email,
-              subject: "Congratulations! Wellcome To Vingle app",
+              subject: "Congratulations! Wellcome To hyfy app",
             };
             await this.communicationService.sendMailNotification(mailContent);
             return res;
