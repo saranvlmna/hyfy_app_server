@@ -13,7 +13,7 @@ export class Users extends Document {
   emailVerified: boolean;
 
   @Prop()
-  picture: string;
+  photo: string;
 
   @Prop()
   age: number;
@@ -58,7 +58,13 @@ export class Users extends Document {
   signUpMethod: string;
 
   @Prop()
-  accessToken: string;
+  refreshToken: string;
+
+  @Prop()
+  providerId: string;
+
+  @Prop()
+  uid: string;
 
   @Prop({ default: now() })
   createdAt: Date;
