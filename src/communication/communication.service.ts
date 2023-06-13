@@ -7,7 +7,7 @@ export class CommunicationService {
   async sendMailNotification(data?: any) {
     let testMail = {
       to: "saranvlmna@gmail.com",
-      subject: "Congratulations! Wellcome To letsChat datingApp",
+      subject: "Congratulations! Wellcome To hyfy app",
     };
     return await this.mailService.sendMail(data ? data : testMail);
   }
