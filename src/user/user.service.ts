@@ -172,7 +172,7 @@ export class UserService {
   async updateUser(data: any) {
     return await this.userModel.updateOne(
       {
-        userId: data.userId,
+        _id: data.userId,
       },
       data
     );
