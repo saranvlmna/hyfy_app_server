@@ -180,7 +180,7 @@ export class UserService {
 
   async createUser(data: any) {
     let isExistUser: any;
-    isExistUser = data.signUpMethod = "mobile"
+    isExistUser = data.signUpMethod == "mobile"
       ? await this.findUser({ mobile: data.mobile })
       : await this.findUser({ email: data.email });
     if (!isExistUser) {
