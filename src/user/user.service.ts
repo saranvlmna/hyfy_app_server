@@ -184,9 +184,9 @@ export class UserService {
       ? await this.findUser({ mobile: data.mobile })
       : await this.findUser({ email: data.email });
     if (!isExistUser) {
-      return await this.userModel.create(data); 
+      return await this.userModel.create(data);
     }
-    return isExistUser
+    return isExistUser;
   }
 
   async getUser(userId: any) {

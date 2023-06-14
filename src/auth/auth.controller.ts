@@ -27,6 +27,7 @@ export class AuthController {
         message: "User signin successfully",
         data: {
           accessToken,
+          user:user
         },
       });
     } catch (error) {
