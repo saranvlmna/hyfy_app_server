@@ -22,6 +22,9 @@ export class Users extends Document {
   gender: string;
 
   @Prop()
+  opponentGender: string;
+
+  @Prop()
   mobile: number;
 
   @Prop({ default: false })
