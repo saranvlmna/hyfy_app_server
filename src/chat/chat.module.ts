@@ -1,11 +1,15 @@
 import { Module } from "@nestjs/common";
-import { ChatService } from "./chat.service";
 import { MongooseModule } from "@nestjs/mongoose";
-import { Active, ActiveSchema } from "../shared/database/liveuser";
+import { Active, ActiveSchema } from "../shared/database/activeusers";
+import { ChatService } from "./chat.service";
+import { Message, MessageSchema } from "src/shared/database/messages";
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Active.name, schema: ActiveSchema }]),
+    MongooseModule.forFeature([
+      { name: Active.name, schema: ActiveSchema },
+      { name: Message.name, schema: MessageSchema },
+    ]),
   ],
   providers: [ChatService],
   exports: [ChatService],

@@ -7,16 +7,13 @@ export class Active extends Document {
   userId: Types.ObjectId;
 
   @Prop()
-  userName: string;
+  socketId: string;
 
   @Prop()
-  socketId: string;
+  lastSeen: Date;
 
   @Prop({ default: now() })
   createdAt: Date;
-
-  @Prop({ default: now() })
-  updatedAt: Date;
 }
 
 export const ActiveSchema = SchemaFactory.createForClass(Active);

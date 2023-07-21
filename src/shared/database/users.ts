@@ -31,6 +31,9 @@ export class Users extends Document {
   mobileVerified: boolean;
 
   @Prop()
+  location: string;
+
+  @Prop()
   state: string;
 
   @Prop()
