@@ -1,7 +1,7 @@
 import { Controller, Get, Res } from "@nestjs/common";
 import { StatusCodes } from "http-status-codes";
 @Controller()
-export class AuthController {
+export class hyFyController {
   constructor() {}
 
   @Get()

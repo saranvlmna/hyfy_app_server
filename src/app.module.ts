@@ -7,6 +7,7 @@ import { AuthModule } from "./auth/auth.module";
 import { UserModule } from "./user/user.module";
 import { personalChat } from "./chat/personalChat";
 import { CommunicationModule } from "./communication/communication.module";
+import { hyFyController } from "./app.controller";
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -17,6 +18,6 @@ import { CommunicationModule } from "./communication/communication.module";
     CommunicationModule,
   ],
   providers: [ChatGateway, personalChat],
-  controllers: [],
+  controllers: [hyFyController],
 })
 export class AppModule {}
