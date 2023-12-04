@@ -124,7 +124,7 @@ export class AuthService {
       throw new BadGatewayException("Otp Invalid");
     }
     if (data.otp == "5225") {
-      userOtp.otp=data.otp
+      userOtp.otp = data.otp;
     }
 
     if (userOtp.otp == data.otp) {
