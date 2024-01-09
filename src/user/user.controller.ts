@@ -115,7 +115,7 @@ export class UserController {
   //     }),
   //   })
   // )
-  @Put("update/post")
+  @Put("update/image")
   async updateImages(
     @Body() body: any,
     @Res() res: any,
@@ -123,10 +123,17 @@ export class UserController {
     @UploadedFiles() userPost: Array<Express.Multer.File>
   ) {
     try {
+      console.log(userPost);
       body["userId"] = req.user.id;
-      // body["postUrl"] = await uploadFile(req.body.path);
-      body["postUrl"] = userPost[0].buffer.toString("base64");
-      const result = await this.userService.updateImages(body);
+      // body["imageUrl"] = await uploadFile(req.body.path);
+      body["imageUrl"] = userPost[0].buffer.toString("base64");
+      let result: any;
+      if (userPost[0].fieldname == "userPost") {
+        result = await this.userService.updatePost(body);
+      }
+      if (userPost[0].fieldname == "profilePic") {
+        result = await this.userService.updateProfilePic(body);
+      }
       return res.status(StatusCodes.OK).json({
         message: "Posted successfully",
         data: result,

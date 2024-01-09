@@ -13,6 +13,6 @@ export class CommunicationService {
   }
 
   async sendOtpNotification(data?: any) {
-    console.log(data);
+    console.log("SMS Otp", data);
   }
 }
