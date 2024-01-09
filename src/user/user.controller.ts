@@ -95,6 +95,46 @@ export class UserController {
     }
   }
 
+  @Get("newfeed")
+  async getNewFeeds(@Res() res: any) {
+    try {
+      const users = await this.userService.getNewFeeds();
+      return res.status(StatusCodes.OK).json({
+        message: "Feeds listed successfully",
+        data: users,
+      });
+    } catch (error) {
+      this.error.handle(res, error);
+    }
+  }
+
+  @Delete("delete")
+  async deleteUser(@Body() body: any, @Res() res: any) {
+    try {
+      const result = await this.userService.deleteUser(body.id);
+      return res.status(StatusCodes.OK).json({
+        message: "user deleted successfully",
+        data: result,
+      });
+    } catch (error) {
+      this.error.handle(res, error);
+    }
+  }
+
+  @Post("match")
+  async matchPartner(@Body() body: any, @Res() res: any, @Req() req: any) {
+    try {
+      body["userId"] = req.user.id;
+      const result = await this.userService.matchPartner(body);
+      return res.status(StatusCodes.OK).json({
+        message: "Parter matched successfully",
+        data: result,
+      });
+    } catch (error) {
+      this.error.handle(res, error);
+    }
+  }
+
   @UseInterceptors(AnyFilesInterceptor())
   // @UseInterceptors(
   //   FilesInterceptor("userPost", 5, {
@@ -130,46 +170,6 @@ export class UserController {
       }
       return res.status(StatusCodes.OK).json({
         message: "Posted successfully",
-        data: result,
-      });
-    } catch (error) {
-      this.error.handle(res, error);
-    }
-  }
-
-  @Get("newfeed")
-  async getNewFeeds(@Res() res: any) {
-    try {
-      const users = await this.userService.getNewFeeds();
-      return res.status(StatusCodes.OK).json({
-        message: "Feeds listed successfully",
-        data: users,
-      });
-    } catch (error) {
-      this.error.handle(res, error);
-    }
-  }
-
-  @Delete("delete")
-  async deleteUser(@Body() body: any, @Res() res: any) {
-    try {
-      const result = await this.userService.deleteUser(body.id);
-      return res.status(StatusCodes.OK).json({
-        message: "user deleted successfully",
-        data: result,
-      });
-    } catch (error) {
-      this.error.handle(res, error);
-    }
-  }
-
-  @Post("match")
-  async matchPartner(@Body() body: any, @Res() res: any, @Req() req: any) {
-    try {
-      body["userId"] = req.user.id;
-      const result = await this.userService.matchPartner(body);
-      return res.status(StatusCodes.OK).json({
-        message: "Parter matched successfully",
         data: result,
       });
     } catch (error) {

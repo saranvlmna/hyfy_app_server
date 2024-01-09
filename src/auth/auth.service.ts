@@ -62,6 +62,7 @@ export class AuthService {
       isExistUser = await this.userServicre.findUser({ email: data.email });
       if (!isExistUser) {
         data.signUpMethod = "google";
+        data.emailVerified = true;
         return await this.userServicre
           .createUser(data)
           .then(async (res: any) => {

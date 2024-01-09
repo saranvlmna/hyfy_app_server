@@ -154,12 +154,14 @@ export class UserService {
   }
 
   async matchPartner(data: any) {
-    let isAlredyMatch = await this.matchModel.findOne({
+    let isAlreadyMatch = await this.matchModel.findOne({
       partnerId: data.partnerId,
       userId: data.userId,
+      isMatch: true,
     });
-    if (!isAlredyMatch) {
+    if (!isAlreadyMatch) {
       let isMatch = await this.matchModel.findOne({
+        userId: data.partnerId,
         partnerId: data.userId,
         isMatch: false,
       });
