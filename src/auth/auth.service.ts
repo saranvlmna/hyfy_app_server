@@ -2,10 +2,11 @@ import { BadGatewayException, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { Users } from "../shared/database/users";
+import verification from "src/shared/constants/verification";
 import { CommunicationService } from "../communication/communication.service";
-import { UserService } from "../user/user.service";
 import { Otp } from "../shared/database/otp";
+import { Users } from "../shared/database/users";
+import { UserService } from "../user/user.service";
 
 @Injectable()
 export class AuthService {
@@ -108,6 +109,7 @@ export class AuthService {
       email: data.email ? data.email : null,
       message: data.message ? data.message : null,
     });
+    console.log("OTP", otp);
     return otp;
   }
 
@@ -124,16 +126,23 @@ export class AuthService {
       { sort: { createdAt: -1 } }
     );
     if (!userOtp) {
-      throw new BadGatewayException("Otp Invalid");
+      throw new BadGatewayException("Otp Invalid / Not available");
     }
     if (userOtp.otp == data.otp) {
       if (
-        userOtp.message == "update_user_mobile_number" ||
-        userOtp.message == "signin_with_mobile"
+        userOtp.message == verification.MOBILE_UPDATE ||
+        userOtp.message == verification.MOBILE_SIGNIN
       ) {
         let updateData = {
           userId: data.userId,
           mobileVerified: true,
+        };
+        await this.userServicre.updateUser(updateData);
+      }
+      if (userOtp.message == verification.EMAIL_UPDATE) {
+        let updateData = {
+          userId: data.userId,
+          emailVerified: true,
         };
         await this.userServicre.updateUser(updateData);
       }
@@ -152,6 +161,19 @@ export class AuthService {
     let updateData = {
       userId: data.userId,
       mobile: data.mobile,
+    };
+    return await this.userServicre.updateUser(updateData);
+  }
+
+  async updateUserEmail(data: any) {
+    await this.generateOtp({
+      userId: data.userId,
+      email: data.email,
+      message: verification.EMAIL_UPDATE,
+    });
+    let updateData = {
+      userId: data.userId,
+      email: data.email,
     };
     return await this.userServicre.updateUser(updateData);
   }

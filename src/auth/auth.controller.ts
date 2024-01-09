@@ -55,6 +55,21 @@ export class AuthController {
   }
 
   @UseInterceptors(Authguard)
+  @Put("email/update")
+  async emailVerification(@Body() body: any, @Res() res: any, @Req() req: any) {
+    try {
+      body["userId"] = req.user._id;
+      const result = await this.authService.updateUserEmail(body);
+      return res.status(StatusCodes.OK).json({
+        message: "Email otp send successfully",
+        data: result,
+      });
+    } catch (error) {
+      this.error.handle(res, error);
+    }
+  }
+
+  @UseInterceptors(Authguard)
   @Post("otp/verify")
   async otpVerification(@Body() body: any, @Res() res: any, @Req() req: any) {
     try {
