@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Types, now, Document, Schema as MongooseSchema } from "mongoose";
+import { Document, Schema as MongooseSchema, Types, now } from "mongoose";
 
 @Schema()
 export class Message extends Document {

@@ -15,7 +15,7 @@ async function bootstrap() {
     })
   );
   await app.listen(port, () => {
-    Logger.log(`Let's talk ${port}`);
+    Logger.log(`hYfy @ ${port}`);
   });
 }
 bootstrap();

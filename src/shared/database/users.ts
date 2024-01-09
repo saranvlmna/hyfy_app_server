@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { now, Document } from "mongoose";
+import { Document, now } from "mongoose";
 
 @Schema()
 export class Users extends Document {

@@ -1,14 +1,14 @@
 import { Module } from "@nestjs/common";
-import { AuthController } from "./auth.controller";
-import { AuthService } from "./auth.service";
-import { Users, UserSchema } from "../shared/database/users";
 import { JwtModule } from "@nestjs/jwt";
 import { MongooseModule } from "@nestjs/mongoose";
-import { GoogleStrategy } from "./auth.googleservice";
 import { CommunicationModule } from "../communication/communication.module";
-import { errorHandler } from "../shared/errorhandler";
 import { Otp, OtpSchema } from "../shared/database/otp";
+import { Users, UserSchema } from "../shared/database/users";
+import { errorHandler } from "../shared/errorhandler";
 import { UserModule } from "../user/user.module";
+import { AuthController } from "./auth.controller";
+import { GoogleStrategy } from "./auth.googleservice";
+import { AuthService } from "./auth.service";
 
 @Module({
   imports: [
