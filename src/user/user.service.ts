@@ -76,9 +76,9 @@ export class UserService {
     }
   }
 
-  async updateImages(data: any) {
+  async updatePost(data: any) {
     data["isImageUpdated"] = true;
-    data["userPosts"] = [data.postUrl];
+    data["userPosts"] = [data.imageUrl];
     let existImages = await this.imagesModel.findOne({
       userId: data.userId,
     });
@@ -91,7 +91,7 @@ export class UserService {
         },
         {
           $push: {
-            userPosts: data.postUrl,
+            userPosts: data.imageUrl,
           },
           $set: {
             isImageUpdated: data["isImageUpdated"],
@@ -99,6 +99,17 @@ export class UserService {
         }
       );
     }
+  }
+
+  async updateProfilePic(data: any) {
+    return await this.userModel.updateOne(
+      {
+        _id: data.userId,
+      },
+      {
+        photo: data.imageUrl,
+      }
+    );
   }
 
   async getNewFeeds() {
@@ -191,44 +202,48 @@ export class UserService {
   }
 
   async getUser(userId: any) {
-    return await this.userModel.aggregate([
-      {
-        $match: {
-          _id: new ObjectID(userId),
+    try {
+      return await this.userModel.aggregate([
+        {
+          $match: {
+            _id: new ObjectID(userId),
+          },
         },
-      },
-      {
-        $lookup: {
-          from: "images",
-          localField: "_id",
-          foreignField: "userId",
-          as: "images",
+        {
+          $lookup: {
+            from: "images",
+            localField: "_id",
+            foreignField: "userId",
+            as: "images",
+          },
         },
-      },
-      {
-        $lookup: {
-          from: "interests",
-          localField: "_id",
-          foreignField: "userId",
-          as: "Interests",
+        {
+          $lookup: {
+            from: "interests",
+            localField: "_id",
+            foreignField: "userId",
+            as: "Interests",
+          },
         },
-      },
-      {
-        $lookup: {
-          from: "socials",
-          localField: "_id",
-          foreignField: "userId",
-          as: "socials",
+        {
+          $lookup: {
+            from: "socials",
+            localField: "_id",
+            foreignField: "userId",
+            as: "socials",
+          },
         },
-      },
-      {
-        $lookup: {
-          from: "premiums",
-          localField: "_id",
-          foreignField: "userId",
-          as: "premiums",
+        {
+          $lookup: {
+            from: "premiums",
+            localField: "_id",
+            foreignField: "userId",
+            as: "premiums",
+          },
         },
-      },
-    ]);
+      ]);
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

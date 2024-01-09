@@ -7,16 +7,16 @@ export class Interests extends Document {
   userId: Types.ObjectId;
 
   @Prop({ default: false })
-  male:boolean
+  male: boolean;
 
   @Prop({ default: false })
-  female:boolean
+  female: boolean;
 
   @Prop({ default: false })
-  football:boolean
+  football: boolean;
 
   @Prop({ default: false })
-  cricket:boolean
+  cricket: boolean;
 
   @Prop({ default: false })
   isInterestUpdated: boolean;
