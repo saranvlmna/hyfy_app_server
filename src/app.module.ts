@@ -8,6 +8,7 @@ import { personalChat } from "./chat/personalChat";
 import { CommunicationModule } from "./communication/communication.module";
 import { hyFyController } from "./app.controller";
 import { UserModule } from "./user/user.module";
+import { hyFyController } from "./app.controller";
 @Module({
   imports: [
     ConfigModule.forRoot(),
