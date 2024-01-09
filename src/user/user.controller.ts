@@ -10,17 +10,11 @@ import {
   UploadedFiles,
   UseInterceptors,
 } from "@nestjs/common";
-import {
-  AnyFilesInterceptor,
-  FilesInterceptor,
-} from "@nestjs/platform-express";
+import { AnyFilesInterceptor } from "@nestjs/platform-express";
 import { StatusCodes } from "http-status-codes";
 import { errorHandler } from "src/shared/errorhandler";
 import { Authguard } from "../shared/authgaurd";
 import { UserService } from "./user.service";
-import { diskStorage } from "multer";
-import { extname } from "path";
-import { v4 } from "uuid";
 const path = require("path");
 const dir = path.join(__dirname);
 
