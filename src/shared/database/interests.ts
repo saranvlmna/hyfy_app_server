@@ -6,8 +6,17 @@ export class Interests extends Document {
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: "Users" })
   userId: Types.ObjectId;
 
-  @Prop()
-  data: Array<string>;
+  @Prop({ default: false })
+  male:boolean
+
+  @Prop({ default: false })
+  female:boolean
+
+  @Prop({ default: false })
+  football:boolean
+
+  @Prop({ default: false })
+  cricket:boolean
 
   @Prop({ default: false })
   isInterestUpdated: boolean;
