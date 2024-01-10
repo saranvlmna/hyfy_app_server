@@ -122,10 +122,10 @@ export class UserController {
   }
 
   @Post("match")
-  async matchPartner(@Body() body: any, @Res() res: any, @Req() req: any) {
+  async matchPair(@Body() body: any, @Res() res: any, @Req() req: any) {
     try {
       body["userId"] = req.user.id;
-      const result = await this.userService.matchPartner(body);
+      const result = await this.userService.matchPair(body);
       return res.status(StatusCodes.OK).json({
         message: "Parter matched successfully",
         data: result,
@@ -136,10 +136,24 @@ export class UserController {
   }
 
   @Get("list/pairs")
+  async listPair(@Body() body: any, @Res() res: any, @Req() req: any) {
+    try {
+      body["userId"] = req.user.id;
+      const result = await this.userService.listPair(body);
+      return res.status(StatusCodes.OK).json({
+        message: "List Pair successfully",
+        data: result,
+      });
+    } catch (error) {
+      this.error.handle(res, error);
+    }
+  }
+
+  @Get("list/matches")
   async listMaches(@Body() body: any, @Res() res: any, @Req() req: any) {
     try {
       body["userId"] = req.user.id;
-      const result = await this.userService.listMaches(body);
+      const result = await this.userService.listMatches(body);
       return res.status(StatusCodes.OK).json({
         message: "List Maches successfully",
         data: result,

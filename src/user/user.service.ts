@@ -155,7 +155,7 @@ export class UserService {
     }
   }
 
-  async matchPartner(data: any) {
+  async matchPair(data: any) {
     let isPair = await this.pairModel.findOne({
       userId: data.userId,
       partnerId: data.partnerId,
@@ -267,7 +267,7 @@ export class UserService {
     }
   }
 
-  async listMaches(data: any) {
+  async listPair(data: any) {
     return await this.pairModel.aggregate([
       {
         $match: {
@@ -278,6 +278,25 @@ export class UserService {
         $lookup: {
           from: "users",
           localField: "partnerId",
+          foreignField: "_id",
+          as: "maches",
+        },
+      },
+    ]);
+  }
+
+  async listMatches(data: any) {
+    return await this.matchModel.aggregate([
+      {
+        $match: {
+          partnerId: new ObjectID(data.userId),
+          isMatch: false,
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "userId",
           foreignField: "_id",
           as: "maches",
         },
