@@ -135,6 +135,20 @@ export class UserController {
     }
   }
 
+  @Get("list/pairs")
+  async listMaches(@Body() body: any, @Res() res: any, @Req() req: any) {
+    try {
+      body["userId"] = req.user.id;
+      const result = await this.userService.listMaches(body);
+      return res.status(StatusCodes.OK).json({
+        message: "List Maches successfully",
+        data: result,
+      });
+    } catch (error) {
+      this.error.handle(res, error);
+    }
+  }
+
   @UseInterceptors(AnyFilesInterceptor())
   // @UseInterceptors(
   //   FilesInterceptor("userPost", 5, {

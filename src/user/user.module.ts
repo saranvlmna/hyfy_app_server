@@ -1,11 +1,12 @@
 import { Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { MongooseModule } from "@nestjs/mongoose";
-import { Images, ImagesSchema } from "../shared/database/images";
-import { Interests, InterestsSchema } from "../shared/database/interests";
+import { Pair, PairSchema } from "src/shared/database/pairUser";
+import { Images, ImagesSchema } from "../shared/database/image";
+import { Interests, InterestsSchema } from "../shared/database/interest";
 import { Match, MatchSchema } from "../shared/database/match";
 import { Social, SocialSchema } from "../shared/database/social";
-import { UserSchema, Users } from "../shared/database/users";
+import { UserSchema, Users } from "../shared/database/user";
 import { errorHandler } from "../shared/errorhandler";
 import { UserController } from "./user.controller";
 import { UserService } from "./user.service";
@@ -19,6 +20,7 @@ import { UserService } from "./user.service";
       { name: Interests.name, schema: InterestsSchema },
       { name: Images.name, schema: ImagesSchema },
       { name: Match.name, schema: MatchSchema },
+      { name: Pair.name, schema: PairSchema },
     ]),
     JwtModule,
   ],
