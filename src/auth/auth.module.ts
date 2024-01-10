@@ -3,7 +3,7 @@ import { JwtModule } from "@nestjs/jwt";
 import { MongooseModule } from "@nestjs/mongoose";
 import { CommunicationModule } from "../communication/communication.module";
 import { Otp, OtpSchema } from "../shared/database/otp";
-import { Users, UserSchema } from "../shared/database/users";
+import { UserSchema, Users } from "../shared/database/user";
 import { errorHandler } from "../shared/errorhandler";
 import { UserModule } from "../user/user.module";
 import { AuthController } from "./auth.controller";

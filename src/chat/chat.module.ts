@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import { Message, MessageSchema } from "src/shared/database/messages";
-import { Active, ActiveSchema } from "../shared/database/activeusers";
+import { Message, MessageSchema } from "src/shared/database/message";
+import { Active, ActiveSchema } from "../shared/database/activeuser";
 import { ChatService } from "./chat.service";
 @Module({
   imports: [
