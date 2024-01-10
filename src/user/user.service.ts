@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { Pair } from "src/shared/database/pairUser";
+import { Pair } from "../shared/database/pairUser";
 import { Images } from "../shared/database/image";
 import { Interests } from "../shared/database/interest";
 import { Match } from "../shared/database/match";

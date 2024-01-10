@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { MongooseModule } from "@nestjs/mongoose";
-import { Pair, PairSchema } from "src/shared/database/pairUser";
+import { Pair, PairSchema } from "../shared/database/pairUser";
 import { Images, ImagesSchema } from "../shared/database/image";
 import { Interests, InterestsSchema } from "../shared/database/interest";
 import { Match, MatchSchema } from "../shared/database/match";
