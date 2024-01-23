@@ -96,9 +96,9 @@ export class UserController {
   }
 
   @Get("newfeed")
-  async getNewFeeds(@Res() res: any) {
+  async getNewFeeds(@Res() res: any, @Req() req: any) {
     try {
-      const users = await this.userService.getNewFeeds();
+      const users = await this.userService.getNewFeeds(req.user.id);
       return res.status(StatusCodes.OK).json({
         message: "Feeds listed successfully",
         data: users,

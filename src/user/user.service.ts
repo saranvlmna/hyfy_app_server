@@ -1,10 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { Pair } from "../shared/database/pairUser";
 import { Images } from "../shared/database/image";
 import { Interests } from "../shared/database/interest";
 import { Match } from "../shared/database/match";
+import { Pair } from "../shared/database/pairUser";
 import { Social } from "../shared/database/social";
 import { Users } from "../shared/database/user";
 
@@ -114,9 +114,13 @@ export class UserService {
     );
   }
 
-  async getNewFeeds() {
+  async getNewFeeds(userId: any) {
     try {
-      return await this.userModel.aggregate([
+      let users = await this.userModel.aggregate([
+        {
+          $match: { _id: { $ne: new ObjectID(userId) } },
+        },
+        { $limit: 10 },
         {
           $lookup: {
             from: "images",
@@ -150,6 +154,7 @@ export class UserService {
           },
         },
       ]);
+      return users;
     } catch (error) {
       console.log(error);
     }
