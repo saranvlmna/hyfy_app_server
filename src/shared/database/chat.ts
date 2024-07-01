@@ -7,13 +7,28 @@ export class Chat extends Document {
   userId: string;
 
   @Prop()
-  senderId: string;
-
-  @Prop()
-  receiverId: string;
+  conversationId: string;
 
   @Prop()
   message: string;
+
+  @Prop({ default: false })
+  isSend: Boolean;
+
+  @Prop()
+  sendTime: Date;
+
+  @Prop({ default: false })
+  isRecived: Boolean;
+
+  @Prop()
+  recivedTime: Date;
+
+  @Prop()
+  isSeen: Date;
+
+  @Prop()
+  seenTime: Date;
 
   @Prop({ default: now() })
   createdAt: Date;
