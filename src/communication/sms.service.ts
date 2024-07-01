@@ -6,16 +6,16 @@ const client = require('twilio')(accountSid, authToken);
 export class SmsService {
   async sendSms(smdContent: any) {
 
-     let message=await client.messages
-        .create(
-            {
-                from: '+18146663915',
-                to: '+919526925448',
-                body: `hyfy login OTP - ${smdContent.otp}`,
-            }
-        )
+    //  let message=await client.messages
+    //     .create(
+    //         {
+    //             from: '+18146663915',
+    //             to: '+919526925448',
+    //             body: `hyfy login OTP - ${smdContent.otp}`,
+    //         }
+    //     )
         
-        return message
+    //     return message
   }
 }
 
