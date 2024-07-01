@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Active } from "../shared/database/activeuser";
-import { Message } from "../shared/database/message";
+import { Message } from "../shared/database/conversation";
 @Injectable()
 export class ChatService {
   constructor(
