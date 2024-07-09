@@ -6,7 +6,7 @@ import { SmsService } from "./sms.service";
 
 @Module({
   controllers: [CommunicationController],
-  providers: [CommunicationService, MailService,SmsService],
+  providers: [CommunicationService, MailService, SmsService],
   exports: [CommunicationService],
 })
 export class CommunicationModule {}

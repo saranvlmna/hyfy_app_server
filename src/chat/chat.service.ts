@@ -2,12 +2,13 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Active } from "../shared/database/activeuser";
-import { Message } from "../shared/database/conversation";
+import { Conversation } from "../shared/database/conversation";
 @Injectable()
 export class ChatService {
   constructor(
     @InjectModel(Active.name) private activeModel: Model<Active>,
-    @InjectModel(Message.name) private messageModel: Model<Message>
+    @InjectModel(Conversation.name)
+    private ConversationModel: Model<Conversation>
   ) {}
 
   async onlineUser(data: any) {
@@ -53,6 +54,6 @@ export class ChatService {
   }
 
   async saveMessage(data: any) {
-    return await this.messageModel.create(data);
+    return await this.ConversationModel.create(data);
   }
 }

@@ -3,8 +3,10 @@ import { MailService } from "./mail.service";
 import { SmsService } from "./sms.service";
 @Injectable()
 export class CommunicationService {
-  constructor(private mailService: MailService,
-    private smsService: SmsService) {}
+  constructor(
+    private mailService: MailService,
+    private smsService: SmsService
+  ) {}
 
   async sendMailNotification(data?: any) {
     let testMail = {
@@ -15,6 +17,6 @@ export class CommunicationService {
   }
 
   async sendOtpNotification(data?: any) {
-   return await this.smsService.sendSms(data)
+    return await this.smsService.sendSms(data);
   }
 }
